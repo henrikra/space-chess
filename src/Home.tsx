@@ -1,12 +1,6 @@
 import axios from "axios";
-import * as firebase from "firebase";
-import "firebase/firestore";
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
-
-import env from "./env";
-
-firebase.initializeApp(env.firebase);
 
 interface IProps extends RouteComponentProps<any> {}
 
@@ -31,7 +25,7 @@ export default class extends React.Component<IProps> {
   public render() {
     return (
       <div className="App">
-        <h1 className="App-title">Welcome to React</h1>
+        <h1 className="App-title">Welcome to play Chess</h1>
         <button onClick={this.createNewGame}>Create new game</button>
       </div>
     );
