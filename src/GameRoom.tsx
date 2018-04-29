@@ -4,6 +4,7 @@ import "firebase/firestore";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 
+import { calculateNewBoard, initialBoard, Move } from "./backendCommon/common";
 import ChessPiece from "./ChessPiece";
 import env from "./env";
 import "./GameRoom.css";
@@ -16,66 +17,14 @@ interface IRoomResponse {
 }
 
 interface IState {
+  isWhiteTurn: boolean;
   board?: number[];
 }
 
 interface IProps extends RouteComponentProps<{ roomId: string }> {}
 
-
-// taken from backend project
-interface Move {
-  from: Square;
-  to: Square;
-}
-
-interface Square {
-  file: string;
-  rank: number;
-}
-
-const FileIndex = {
-  a: 0,
-  b: 1,
-  c: 2,
-  d: 3,
-  e: 4,
-  f: 5,
-  g: 6,
-  h: 7
-};
-
-const initialBoard = [
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, 8, 9, 10, 12, 11, 10, 9, 8, -1,
-  -1, 7, 7, 7, 7, 7, 7, 7, 7, -1,
-  -1, 0, 0, 0, 0, 0, 0, 0, 0, -1,
-  -1, 0, 0, 0, 0, 0, 0, 0, 0, -1,
-  -1, 0, 0, 0, 0, 0, 0, 0, 0, -1,
-  -1, 0, 0, 0, 0, 0, 0, 0, 0, -1,
-  -1, 1, 1, 1, 1, 1, 1, 1, 1, -1, // 80 - 89
-  -1, 2, 3, 4, 6, 5, 4, 3, 2, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
-];
-
-const bottomLeftIndex = 91;
-const lengthOfBoard = 10;
-export const squareToIndexOnBoard = (square: Square) =>
-  bottomLeftIndex - (square.rank - 1) * lengthOfBoard + FileIndex[square.file];
-
-const calculateNewBoard = (board: number[], moves: Move[]) => {
-  return moves.reduce((acc, move) => {
-    acc[squareToIndexOnBoard(move.to)] = acc[squareToIndexOnBoard(move.from)];
-    acc[squareToIndexOnBoard(move.from)] = 0;
-    return acc;
-  }, [...board]);
-}
-
-// end! taken from backend project
-
 export default class GameRoom extends React.Component<IProps, IState> {
-  public state: IState = {};
+  public state: IState = { isWhiteTurn: true };
 
   public componentDidMount() {
     firebase
@@ -84,9 +33,12 @@ export default class GameRoom extends React.Component<IProps, IState> {
       .doc(this.props.match.params.roomId)
       .onSnapshot(doc => {
         const game = doc.data() as IRoomResponse;
-        const newBoard = calculateNewBoard(initialBoard, game.moves)
+        const newBoard = calculateNewBoard(initialBoard, game.moves);
 
-        this.setState({ board: newBoard.filter(piece => piece !== -1) });
+        this.setState({
+          board: newBoard.filter(piece => piece !== -1),
+          isWhiteTurn: game.moves.length % 2 === 0
+        });
       });
   }
 
@@ -120,6 +72,7 @@ export default class GameRoom extends React.Component<IProps, IState> {
               />
             ))}
         </div>
+        <p>{this.state.isWhiteTurn ? 'White\'s turn' : 'Black\'s turn'}</p>
       </div>
     );
   }
