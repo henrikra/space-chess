@@ -12,6 +12,7 @@ firebase.initializeApp(env.firebase);
 
 interface IRoomResponse {
   board: number[];
+  moves: Move[];
 }
 
 interface IState {
@@ -19,6 +20,59 @@ interface IState {
 }
 
 interface IProps extends RouteComponentProps<{ roomId: string }> {}
+
+
+// taken from backend project
+interface Move {
+  from: Square;
+  to: Square;
+}
+
+interface Square {
+  file: string;
+  rank: number;
+}
+
+const FileIndex = {
+  a: 0,
+  b: 1,
+  c: 2,
+  d: 3,
+  e: 4,
+  f: 5,
+  g: 6,
+  h: 7
+};
+
+const initialBoard = [
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, 8, 9, 10, 12, 11, 10, 9, 8, -1,
+  -1, 7, 7, 7, 7, 7, 7, 7, 7, -1,
+  -1, 0, 0, 0, 0, 0, 0, 0, 0, -1,
+  -1, 0, 0, 0, 0, 0, 0, 0, 0, -1,
+  -1, 0, 0, 0, 0, 0, 0, 0, 0, -1,
+  -1, 0, 0, 0, 0, 0, 0, 0, 0, -1,
+  -1, 1, 1, 1, 1, 1, 1, 1, 1, -1, // 80 - 89
+  -1, 2, 3, 4, 6, 5, 4, 3, 2, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+];
+
+const bottomLeftIndex = 91;
+const lengthOfBoard = 10;
+export const squareToIndexOnBoard = (square: Square) =>
+  bottomLeftIndex - (square.rank - 1) * lengthOfBoard + FileIndex[square.file];
+
+const calculateNewBoard = (board: number[], moves: Move[]) => {
+  return moves.reduce((acc, move) => {
+    acc[squareToIndexOnBoard(move.to)] = acc[squareToIndexOnBoard(move.from)];
+    acc[squareToIndexOnBoard(move.from)] = 0;
+    return acc;
+  }, [...board]);
+}
+
+// end! taken from backend project
 
 export default class GameRoom extends React.Component<IProps, IState> {
   public state: IState = {};
@@ -30,7 +84,9 @@ export default class GameRoom extends React.Component<IProps, IState> {
       .doc(this.props.match.params.roomId)
       .onSnapshot(doc => {
         const game = doc.data() as IRoomResponse;
-        this.setState({ board: game.board });
+        const newBoard = calculateNewBoard(initialBoard, game.moves)
+
+        this.setState({ board: newBoard.filter(piece => piece !== -1) });
       });
   }
 
