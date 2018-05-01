@@ -61,10 +61,19 @@ class GameRoom extends React.Component<IProps, IState> {
       });
   };
 
+  public joinGame = async () => {
+    try {
+      await api.joinGame(this.props.match.params.roomId, this.props.userId)
+    } catch (error) {
+      alert(error.response.data.error)
+    }
+  }
+
   public render() {
     return (
       <div>
         <h1>{this.props.match.params.roomId}</h1>
+        <button onClick={this.joinGame}>Join the game</button>
         <div className="board">
           {this.state.board &&
             this.state.board.map((chessPiece, index) => (

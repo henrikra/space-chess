@@ -9,6 +9,8 @@ const agent = axios.create({ baseURL: process.env.REACT_APP_API_BASE_URL });
 const api = {
   createChessRoom: (userId: string) =>
     agent.post<IAddRoomResponse>("addRoom", { userId }),
+  joinGame: (roomId: string, userId: string) =>
+    agent.post("joinGame", { userId, roomId }),
   movePiece: (roomId: string) =>
     agent.post("movePiece", { from: 100, to: 666, roomId })
 };
