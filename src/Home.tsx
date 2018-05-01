@@ -9,8 +9,8 @@ interface State {
 export default class extends React.Component<RouteComponentProps<any>, State> {
   public state: State = {
     isLoading: false
-  }
-  
+  };
+
   public createNewGame = () => {
     this.setState({ isLoading: true });
     api

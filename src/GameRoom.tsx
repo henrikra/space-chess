@@ -12,7 +12,7 @@ import "./GameRoom.css";
 firebase.initializeApp(env.firebase);
 
 const firestore = firebase.firestore();
-firestore.settings({timestampsInSnapshots: true});
+firestore.settings({ timestampsInSnapshots: true });
 
 interface IRoomResponse {
   board: number[];
@@ -45,7 +45,8 @@ export default class GameRoom extends React.Component<IProps, IState> {
   }
 
   public selectSquare = () => {
-    api.movePiece(this.props.match.params.roomId)
+    api
+      .movePiece(this.props.match.params.roomId)
       .then((lol: any) => {
         console.log("hello");
         console.log(lol.data);
@@ -70,7 +71,7 @@ export default class GameRoom extends React.Component<IProps, IState> {
               />
             ))}
         </div>
-        <p>{this.state.isWhiteTurn ? 'White\'s turn' : 'Black\'s turn'}</p>
+        <p>{this.state.isWhiteTurn ? "White's turn" : "Black's turn"}</p>
       </div>
     );
   }
