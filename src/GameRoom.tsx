@@ -32,10 +32,11 @@ interface IProps
     WithAuthenticationProps {}
 
 class GameRoom extends React.Component<IProps, IState> {
+  public roomListenerUnsubscribe: firebase.Unsubscribe;
   public state: IState = { isWhiteTurn: true };
 
   public componentDidMount() {
-    firestore
+    this.roomListenerUnsubscribe = firestore
       .collection("rooms")
       .doc(this.props.match.params.roomId)
       .onSnapshot(doc => {
@@ -47,6 +48,10 @@ class GameRoom extends React.Component<IProps, IState> {
           isWhiteTurn: game.moves.length % 2 === 0
         });
       });
+  }
+
+  public componentWillUnmount() {
+    this.roomListenerUnsubscribe();
   }
 
   public selectSquare = () => {
