@@ -2,24 +2,35 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import api from "./api";
 
-interface IProps extends RouteComponentProps<any> {}
+interface State {
+  isLoading: boolean;
+}
 
-export default class extends React.Component<IProps> {
+export default class extends React.Component<RouteComponentProps<any>, State> {
+  public state: State = {
+    isLoading: false
+  }
+  
   public createNewGame = () => {
-    api.createChessRoom()
+    this.setState({ isLoading: true });
+    api
+      .createChessRoom()
       .then(response => {
         this.props.history.push(`/room/${response.data.roomId}`);
       })
-      .catch((error) => {
-        alert(error.message)}
-      );
+      .catch(error => {
+        this.setState({ isLoading: false });
+        alert(error.message);
+      });
   };
 
   public render() {
     return (
       <div className="App">
         <h1 className="App-title">Welcome to play Chess</h1>
-        <button onClick={this.createNewGame}>Create new game</button>
+        <button onClick={this.createNewGame} disabled={this.state.isLoading}>
+          {this.state.isLoading ? "Loading" : "Create new game"}
+        </button>
       </div>
     );
   }
