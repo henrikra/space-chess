@@ -11,6 +11,9 @@ import "./GameRoom.css";
 
 firebase.initializeApp(env.firebase);
 
+const firestore = firebase.firestore();
+firestore.settings({timestampsInSnapshots: true});
+
 interface IRoomResponse {
   board: number[];
   moves: Move[];
@@ -27,8 +30,7 @@ export default class GameRoom extends React.Component<IProps, IState> {
   public state: IState = { isWhiteTurn: true };
 
   public componentDidMount() {
-    firebase
-      .firestore()
+    firestore
       .collection("rooms")
       .doc(this.props.match.params.roomId)
       .onSnapshot(doc => {
