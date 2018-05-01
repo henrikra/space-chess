@@ -2,14 +2,17 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import api from "./api";
-import withAuthentication from "./hocs/withAuthentication";
+import withAuthentication, {
+  WithAuthenticationProps
+} from "./hocs/withAuthentication";
 
 interface State {
   isLoading: boolean;
 }
 
-class Home extends React.Component<RouteComponentProps<any>, State> {
-  
+interface Props extends RouteComponentProps<any>, WithAuthenticationProps {}
+
+class Home extends React.Component<Props, State> {
   public state: State = {
     isLoading: false
   };
@@ -17,7 +20,7 @@ class Home extends React.Component<RouteComponentProps<any>, State> {
   public createNewGame = () => {
     this.setState({ isLoading: true });
     api
-      .createChessRoom()
+      .createChessRoom(this.props.userId)
       .then(response => {
         this.props.history.push(`/room/${response.data.roomId}`);
       })
