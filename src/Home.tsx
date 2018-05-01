@@ -1,12 +1,15 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
+
 import api from "./api";
+import withAuthentication from "./hocs/withAuthentication";
 
 interface State {
   isLoading: boolean;
 }
 
-export default class extends React.Component<RouteComponentProps<any>, State> {
+class Home extends React.Component<RouteComponentProps<any>, State> {
+  
   public state: State = {
     isLoading: false
   };
@@ -35,3 +38,5 @@ export default class extends React.Component<RouteComponentProps<any>, State> {
     );
   }
 }
+
+export default withAuthentication(Home);

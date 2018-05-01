@@ -8,6 +8,7 @@ import { calculateNewBoard, initialBoard, Move } from "./backendCommon/common";
 import ChessPiece from "./ChessPiece";
 import env from "./env";
 import "./GameRoom.css";
+import withAuthentication from './hocs/withAuthentication';
 
 firebase.initializeApp(env.firebase);
 
@@ -26,7 +27,7 @@ interface IState {
 
 interface IProps extends RouteComponentProps<{ roomId: string }> {}
 
-export default class GameRoom extends React.Component<IProps, IState> {
+class GameRoom extends React.Component<IProps, IState> {
   public state: IState = { isWhiteTurn: true };
 
   public componentDidMount() {
@@ -76,3 +77,5 @@ export default class GameRoom extends React.Component<IProps, IState> {
     );
   }
 }
+
+export default withAuthentication(GameRoom);
