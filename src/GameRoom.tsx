@@ -1,9 +1,9 @@
-import axios from "axios";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 
+import api from "./api";
 import { calculateNewBoard, initialBoard, Move } from "./backendCommon/common";
 import ChessPiece from "./ChessPiece";
 import env from "./env";
@@ -43,11 +43,7 @@ export default class GameRoom extends React.Component<IProps, IState> {
   }
 
   public selectSquare = () => {
-    axios
-      .post(
-        "https://us-central1-fire-chess-9825d.cloudfunctions.net/movePiece",
-        { from: 100, to: 666, roomId: this.props.match.params.roomId }
-      )
+    api.movePiece(this.props.match.params.roomId)
       .then((lol: any) => {
         console.log("hello");
         console.log(lol.data);

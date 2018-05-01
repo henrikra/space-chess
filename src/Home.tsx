@@ -1,19 +1,12 @@
-import axios from "axios";
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
+import api from "./api";
 
 interface IProps extends RouteComponentProps<any> {}
 
-interface IAddRoomResponse {
-  roomId: string;
-}
-
 export default class extends React.Component<IProps> {
   public createNewGame = () => {
-    axios
-      .get<IAddRoomResponse>(
-        "https://us-central1-fire-chess-9825d.cloudfunctions.net/addRoom"
-      )
+    api.createChessRoom()
       .then(response => {
         this.props.history.push(`/room/${response.data.roomId}`);
       })
