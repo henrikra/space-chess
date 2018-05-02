@@ -4,7 +4,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/classnames": "^2.2.3",
     "axios": "^0.18.0",
+    "classnames": "^2.2.5",
     "firebase": "^4.13.1",
     "gh-pages": "^1.1.0",
     "react": "^16.3.2",
