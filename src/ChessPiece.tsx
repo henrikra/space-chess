@@ -1,3 +1,4 @@
+import * as classNames from "classnames";
 import * as React from "react";
 
 const getChessPieceIcon = (chessPieceNumber: number) => {
@@ -34,19 +35,23 @@ const getChessPieceIcon = (chessPieceNumber: number) => {
 interface IProps {
   chessPiece: number;
   index: number;
+  isActive: boolean;
   onPress(index: number): void;
 }
 
 export default class ChessPiece extends React.Component<IProps> {
   public selectSquare = () => {
-    // alert(this.props.index);
     this.props.onPress(this.props.index);
-    
   };
 
   public render() {
     return (
-      <div className="chess-piece" onClick={this.selectSquare}>
+      <div
+        className={classNames("chess-piece", {
+          "chess-piece--active": this.props.isActive
+        })}
+        onClick={this.selectSquare}
+      >
         {getChessPieceIcon(this.props.chessPiece)}
       </div>
     );

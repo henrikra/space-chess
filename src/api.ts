@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Square } from "./backendCommon/common";
 
 interface IAddRoomResponse {
   roomId: string;
@@ -11,7 +12,7 @@ const api = {
     agent.post<IAddRoomResponse>("addRoom", { userId }),
   joinGame: (roomId: string, userId: string) =>
     agent.post("joinGame", { userId, roomId }),
-  movePiece: (roomId: string) =>
-    agent.post("movePiece", { from: 100, to: 666, roomId })
+  movePiece: (roomId: string, userId: string, from: Square, to: Square) =>
+    agent.post("movePiece", { from, to, roomId, userId })
 };
 export default api;

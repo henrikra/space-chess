@@ -11,6 +11,6 @@
   cursor: pointer;
 }
 
-.chess-piece:hover {
-  background: #cccccc;
+.chess-piece--active {
+  background: red;
 }

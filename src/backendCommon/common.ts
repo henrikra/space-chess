@@ -4,7 +4,7 @@ export interface Move {
   to: Square;
 }
 
-interface Square {
+export interface Square {
   file: string;
   rank: number;
 }
