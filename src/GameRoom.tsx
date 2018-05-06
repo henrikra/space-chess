@@ -3,7 +3,7 @@ import "firebase/firestore";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 
-import api from "./api";
+import api, { Role } from "./api";
 import { calculateNewBoard, initialBoard, Move } from "./backendCommon/common";
 import ChessPiece from "./ChessPiece";
 import env from "./env";
@@ -27,6 +27,7 @@ interface IState {
   board?: number[];
   activeIndex?: number;
   isGameFull: boolean;
+  role: Role;
 }
 
 interface IProps
@@ -35,9 +36,13 @@ interface IProps
 
 class GameRoom extends React.Component<IProps, IState> {
   public roomListenerUnsubscribe: firebase.Unsubscribe;
-  public state: IState = { isWhiteTurn: true, isGameFull: true };
+  public state: IState = {
+    isGameFull: true,
+    isWhiteTurn: true,
+    role: "spectator"
+  };
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.roomListenerUnsubscribe = firestore
       .collection("rooms")
       .doc(this.props.match.params.roomId)
@@ -51,6 +56,20 @@ class GameRoom extends React.Component<IProps, IState> {
           isWhiteTurn: game.moves.length % 2 === 0
         });
       });
+  }
+
+  public async componentWillReceiveProps(nextProps: IProps) {
+    if (nextProps.userId) {
+      try {
+        const response = await api.whoAmI({
+          roomId: nextProps.match.params.roomId,
+          userId: nextProps.userId
+        });
+        this.setState({ role: response.data.role });
+      } catch (error) {
+        alert(error.response.data.error);
+      }
+    }
   }
 
   public componentWillUnmount() {
@@ -130,7 +149,11 @@ class GameRoom extends React.Component<IProps, IState> {
 
   public joinGame = async () => {
     try {
-      await api.joinGame(this.props.match.params.roomId, this.props.userId);
+      const response = await api.joinGame(
+        this.props.match.params.roomId,
+        this.props.userId
+      );
+      this.setState({ role: response.data.role });
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -141,7 +164,7 @@ class GameRoom extends React.Component<IProps, IState> {
       <div>
         <h1>RoomId: {this.props.match.params.roomId}</h1>
         <h2>I am: {this.props.userId}</h2>
-        {!this.state.isGameFull && (
+        {!this.state.isGameFull && this.state.role === 'spectator' && (
           <button onClick={this.joinGame}>Join the game</button>
         )}
         {this.state.board ? (
@@ -160,6 +183,8 @@ class GameRoom extends React.Component<IProps, IState> {
             {this.state.isGameFull && (
               <p>{this.state.isWhiteTurn ? "White's turn" : "Black's turn"}</p>
             )}
+            {this.state.role === "white" && <p>You are white</p>}
+            {this.state.role === "black" && <p>You are black</p>}
           </>
         ) : (
           <p>Loading board</p>
