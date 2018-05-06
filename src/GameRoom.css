@@ -2,6 +2,7 @@
   --piece-side: 60px;
   display: grid;
   grid-template-columns: repeat(8, var(--piece-side));
+  --active-color: red;
 }
 
 .chess-piece {
@@ -12,5 +13,13 @@
 }
 
 .chess-piece--active {
-  background: red;
+  background: var(--active-color);
+}
+
+.chess-piece:hover {
+  background: #ccc;
+}
+
+.chess-piece:hover.chess-piece--active {
+  background: var(--active-color);
 }
