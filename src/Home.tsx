@@ -34,9 +34,11 @@ class Home extends React.Component<Props, State> {
     return (
       <div className="App">
         <h1 className="App-title">Welcome to play Chess</h1>
-        <button onClick={this.createNewGame} disabled={this.state.isLoading}>
-          {this.state.isLoading ? "Loading" : "Create new game"}
-        </button>
+        {this.props.userId ? (
+          <button onClick={this.createNewGame} disabled={this.state.isLoading}>
+            {this.state.isLoading ? "Loading" : "Create new game"}
+          </button>
+        ) : <p>Please wait...</p>}
       </div>
     );
   }
