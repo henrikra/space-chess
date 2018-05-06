@@ -1,2 +1,0 @@
-.App{text-align:center}.App-title{font-size:1.5em}.board{--piece-side:60px;display:grid;grid-template-columns:repeat(8,var(--piece-side))}.chess-piece{height:var(--piece-side);font-size:48px;text-align:center;cursor:pointer}.chess-piece--active{background:red}body{margin:0;padding:0}body,button{font-family:Nunito,sans-serif}
-/*# sourceMappingURL=main.86b2171a.css.map*/
