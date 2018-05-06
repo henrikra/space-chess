@@ -18,7 +18,7 @@ const firestore = firebase.firestore();
 firestore.settings({ timestampsInSnapshots: true });
 
 interface IRoomResponse {
-  board: number[];
+  isGameFull: boolean;
   moves: Move[];
 }
 
@@ -26,6 +26,7 @@ interface IState {
   isWhiteTurn: boolean;
   board?: number[];
   activeIndex?: number;
+  isGameFull: boolean;
 }
 
 interface IProps
@@ -34,7 +35,7 @@ interface IProps
 
 class GameRoom extends React.Component<IProps, IState> {
   public roomListenerUnsubscribe: firebase.Unsubscribe;
-  public state: IState = { isWhiteTurn: true };
+  public state: IState = { isWhiteTurn: true, isGameFull: true };
 
   public componentDidMount() {
     this.roomListenerUnsubscribe = firestore
@@ -46,7 +47,8 @@ class GameRoom extends React.Component<IProps, IState> {
 
         this.setState({
           board: newBoard.filter(piece => piece !== -1),
-          isWhiteTurn: game.moves.length % 2 === 0
+          isGameFull: game.isGameFull,
+          isWhiteTurn: game.moves.length % 2 === 0,
         });
       });
   }
@@ -139,7 +141,7 @@ class GameRoom extends React.Component<IProps, IState> {
       <div>
         <h1>RoomId: {this.props.match.params.roomId}</h1>
         <h2>I am: {this.props.userId}</h2>
-        <button onClick={this.joinGame}>Join the game</button>
+        {!this.state.isGameFull && <button onClick={this.joinGame}>Join the game</button>}
         {this.state.board ? (
           <>
             <div className="board">
