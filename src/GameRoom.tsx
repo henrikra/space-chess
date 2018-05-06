@@ -140,19 +140,24 @@ class GameRoom extends React.Component<IProps, IState> {
         <h1>RoomId: {this.props.match.params.roomId}</h1>
         <h2>I am: {this.props.userId}</h2>
         <button onClick={this.joinGame}>Join the game</button>
-        <div className="board">
-          {this.state.board &&
-            this.state.board.map((chessPiece, index) => (
-              <ChessPiece
-                key={index}
-                chessPiece={chessPiece}
-                index={index}
-                onPress={this.selectSquare}
-                isActive={this.state.activeIndex === index}
-              />
-            ))}
-        </div>
-        <p>{this.state.isWhiteTurn ? "White's turn" : "Black's turn"}</p>
+        {this.state.board ? (
+          <>
+            <div className="board">
+              {this.state.board.map((chessPiece, index) => (
+                <ChessPiece
+                  key={index}
+                  chessPiece={chessPiece}
+                  index={index}
+                  onPress={this.selectSquare}
+                  isActive={this.state.activeIndex === index}
+                />
+              ))}
+            </div>
+            <p>{this.state.isWhiteTurn ? "White's turn" : "Black's turn"}</p>
+          </>
+        ) : (
+          <p>Loading board</p>
+        )}
       </div>
     );
   }
