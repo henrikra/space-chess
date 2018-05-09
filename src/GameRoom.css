@@ -3,6 +3,8 @@
   display: grid;
   grid-template-columns: repeat(8, var(--piece-side));
   --active-color: red;
+  width: 480px;
+  margin: 0 auto;
 }
 
 .chess-piece {
