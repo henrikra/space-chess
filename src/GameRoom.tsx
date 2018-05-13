@@ -159,14 +159,21 @@ class GameRoom extends React.Component<IProps, IState> {
     }
   };
 
+  public isDark = (index: number) => {
+    const isEvenRow = Math.floor(index / 8) % 2 === 0;
+    const isEvenFile = index % 2 === 0;
+    return isEvenRow ? !isEvenFile : isEvenFile;
+  };
+
   public render() {
     return (
       <div>
         <h1>RoomId: {this.props.match.params.roomId}</h1>
         <h2>I am: {this.props.userId}</h2>
-        {!this.state.isGameFull && this.state.role === 'spectator' && (
-          <button onClick={this.joinGame}>Join the game</button>
-        )}
+        {!this.state.isGameFull &&
+          this.state.role === "spectator" && (
+            <button onClick={this.joinGame}>Join the game</button>
+          )}
         {this.state.board ? (
           <>
             <div className="board">
@@ -177,6 +184,7 @@ class GameRoom extends React.Component<IProps, IState> {
                   index={index}
                   onPress={this.selectSquare}
                   isActive={this.state.activeIndex === index}
+                  isDark={this.isDark(index)}
                 />
               ))}
             </div>

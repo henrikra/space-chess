@@ -36,6 +36,7 @@ interface IProps {
   chessPiece: number;
   index: number;
   isActive: boolean;
+  isDark: boolean;
   onPress(index: number): void;
 }
 
@@ -48,7 +49,8 @@ export default class ChessPiece extends React.Component<IProps> {
     return (
       <div
         className={classNames("chess-piece", {
-          "chess-piece--active": this.props.isActive
+          "chess-piece--active": this.props.isActive,
+          "chess-piece--dark": this.props.isDark
         })}
         onClick={this.selectSquare}
       >

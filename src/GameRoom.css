@@ -12,6 +12,11 @@
   font-size: 48px;
   text-align: center;
   cursor: pointer;
+  background: #80AC51;
+}
+
+.chess-piece--dark {
+  background: #678E49;
 }
 
 .chess-piece--active {
