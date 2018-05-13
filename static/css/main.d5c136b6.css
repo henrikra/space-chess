@@ -1,0 +1,2 @@
+.App{text-align:center}.App-title{font-size:1.5em}.board{--piece-side:60px;display:grid;grid-template-columns:repeat(8,var(--piece-side));--active-color:red;width:480px;margin:0 auto}.chess-piece{height:var(--piece-side);font-size:48px;text-align:center;cursor:pointer}.chess-piece--active{background:var(--active-color)}.chess-piece:hover{background:#ccc}.chess-piece:hover.chess-piece--active{background:var(--active-color)}body{margin:0;padding:0}body,button{font-family:Nunito,sans-serif}
+/*# sourceMappingURL=main.d5c136b6.css.map*/
