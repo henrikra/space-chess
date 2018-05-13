@@ -40,7 +40,9 @@ class Home extends React.Component<Props, State> {
           <button onClick={this.createNewGame} disabled={this.state.isLoading}>
             {this.state.isLoading ? "Loading" : "Create new game"}
           </button>
-        ) : <p>Please wait...</p>}
+        ) : (
+          <p>Please wait...</p>
+        )}
       </div>
     );
   }
