@@ -2,18 +2,18 @@ import * as firebase from "firebase";
 import * as React from "react";
 
 interface State {
-  userId: string;
+  userId?: string;
 }
 
 export interface WithAuthenticationProps {
-  userId: string;
+  userId?: string;
 }
 
 function withAuthentication<T>(
   WrappedComponent: React.ComponentType<T & WithAuthenticationProps>
 ) {
   return class extends React.Component<T, State> {
-    public state: State = { userId: "" };
+    public state: State = {};
     public authListenerUnsubscribe: firebase.Unsubscribe;
 
     public componentWillMount() {

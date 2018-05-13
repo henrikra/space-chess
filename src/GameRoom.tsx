@@ -119,7 +119,10 @@ class GameRoom extends React.Component<IProps, IState> {
   public selectSquare = (index: number) => {
     if (this.state.activeIndex === index) {
       this.setState({ activeIndex: undefined });
-    } else if (typeof this.state.activeIndex === "number") {
+    } else if (
+      typeof this.state.activeIndex === "number" &&
+      this.props.userId
+    ) {
       api
         .movePiece(
           this.props.match.params.roomId,
@@ -148,14 +151,16 @@ class GameRoom extends React.Component<IProps, IState> {
   };
 
   public joinGame = async () => {
-    try {
-      const response = await api.joinGame(
-        this.props.match.params.roomId,
-        this.props.userId
-      );
-      this.setState({ role: response.data.role });
-    } catch (error) {
-      alert(error.response.data.error);
+    if (this.props.userId) {
+      try {
+        const response = await api.joinGame(
+          this.props.match.params.roomId,
+          this.props.userId
+        );
+        this.setState({ role: response.data.role });
+      } catch (error) {
+        alert(error.response.data.error);
+      }
     }
   };
 

@@ -18,16 +18,18 @@ class Home extends React.Component<Props, State> {
   };
 
   public createNewGame = () => {
-    this.setState({ isLoading: true });
-    api
-      .createChessRoom(this.props.userId)
-      .then(response => {
-        this.props.history.push(`/room/${response.data.roomId}`);
-      })
-      .catch(error => {
-        this.setState({ isLoading: false });
-        alert(error.message);
-      });
+    if (this.props.userId) {
+      this.setState({ isLoading: true });
+      api
+        .createChessRoom(this.props.userId)
+        .then(response => {
+          this.props.history.push(`/room/${response.data.roomId}`);
+        })
+        .catch(error => {
+          this.setState({ isLoading: false });
+          alert(error.message);
+        });
+    }
   };
 
   public render() {
