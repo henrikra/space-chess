@@ -86,7 +86,7 @@ class GameRoom extends React.Component<IProps, IState> {
         this.setState({
           isGameFull: game.isGameFull,
           isWhiteTurn: game.moves.length % 2 === 0,
-          pieces: this.calculatePiecesFromMoves(game.moves),
+          pieces: this.calculatePiecesFromMoves(game.moves)
         });
       });
   }
@@ -106,12 +106,13 @@ class GameRoom extends React.Component<IProps, IState> {
   }
 
   public componentDidUpdate(prevProps: IProps, prevState: IState) {
-    const hasBoardChanged =
+    const hasPiecesChanged =
       this.state.pieces &&
       !this.state.pieces.every(
-        (piece, index) => !!prevState.pieces && prevState.pieces[index] === piece
+        (piece, index) =>
+          !!prevState.pieces && prevState.pieces[index] === piece
       );
-    if (prevState.pieces && hasBoardChanged) {
+    if (prevState.pieces && hasPiecesChanged) {
       playSound();
     }
   }
@@ -180,7 +181,7 @@ class GameRoom extends React.Component<IProps, IState> {
             rank: this.calculateRank(index)
           }
         )
-        .then((lol: any) => {
+        .then(() => {
           this.setState({ activeIndex: undefined });
         })
         .catch(error => {
