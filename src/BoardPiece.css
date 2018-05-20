@@ -45,7 +45,7 @@
 }
 
 .a7 {
-  transform: translate(5px, 60px);
+  transform: translate(0px, 60px);
 }
 .b7 {
   transform: translate(60px, 60px);
@@ -70,7 +70,7 @@
 }
 
 .a6 {
-  transform: translate(5px, 120px);
+  transform: translate(0px, 120px);
 }
 .b6 {
   transform: translate(60px, 120px);
@@ -95,7 +95,7 @@
 }
 
 .a5 {
-  transform: translate(5px, 180px);
+  transform: translate(0px, 180px);
 }
 .b5 {
   transform: translate(60px, 180px);
@@ -120,7 +120,7 @@
 }
 
 .a4 {
-  transform: translate(5px, 240px);
+  transform: translate(0px, 240px);
 }
 .b4 {
   transform: translate(60px, 240px);
@@ -145,7 +145,7 @@
 }
 
 .a3 {
-  transform: translate(5px, 300px);
+  transform: translate(0px, 300px);
 }
 .b3 {
   transform: translate(60px, 300px);
@@ -170,7 +170,7 @@
 }
 
 .a2 {
-  transform: translate(5px, 360px);
+  transform: translate(0px, 360px);
 }
 .b2 {
   transform: translate(60px, 360px);
@@ -195,7 +195,7 @@
 }
 
 .a1 {
-  transform: translate(5px, 420px);
+  transform: translate(0px, 420px);
 }
 .b1 {
   transform: translate(60px, 420px);
