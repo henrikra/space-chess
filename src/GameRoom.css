@@ -13,13 +13,25 @@
   text-align: center;
   position: absolute;
   pointer-events: none;
-  transition: transform 1.5s;
+  transition: transform 1s, opacity 0.5s;
+}
+
+.chess-piece--captured {
+  opacity: 0;
 }
 
 .square {
   cursor: pointer;
   height: var(--piece-side);
   background: #80AC51;
+}
+
+.square:hover {
+  background: #ccc;
+}
+
+.square:hover.square--active {
+  background: var(--active-color);
 }
 
 .square--dark {
@@ -30,18 +42,7 @@
   background: var(--active-color);
 }
 
-.chess-piece--active {
-  background: var(--active-color);
-}
-
-.chess-piece:hover {
-  background: #ccc;
-}
-
-.chess-piece:hover.chess-piece--active {
-  background: var(--active-color);
-}
-
+/* Square */
 .a8 {
   transform: translate(5px, 0px);
 }

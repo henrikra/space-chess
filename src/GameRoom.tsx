@@ -35,6 +35,7 @@ interface IRoomResponse {
 export interface PieceOnBoard {
   value: ChessPiece;
   at: Square;
+  isCaptured: boolean;
 }
 
 interface IState {
@@ -60,56 +61,182 @@ class GameRoom extends React.Component<IProps, IState> {
 
   public getPiecesFromMoves = (moves: Move[]) => {
     const allPieces = [
-      { value: ChessPiece.BlackRook, at: { file: "a", rank: 8 } },
-      { value: ChessPiece.BlackKnight, at: { file: "b", rank: 8 } },
-      { value: ChessPiece.BlackBishop, at: { file: "c", rank: 8 } },
-      { value: ChessPiece.BlackQueen, at: { file: "d", rank: 8 } },
-      { value: ChessPiece.BlackKing, at: { file: "e", rank: 8 } },
-      { value: ChessPiece.BlackBishop, at: { file: "f", rank: 8 } },
-      { value: ChessPiece.BlackKnight, at: { file: "g", rank: 8 } },
-      { value: ChessPiece.BlackRook, at: { file: "h", rank: 8 } },
-      { value: ChessPiece.BlackPawn, at: { file: "a", rank: 7 } },
-      { value: ChessPiece.BlackPawn, at: { file: "b", rank: 7 } },
-      { value: ChessPiece.BlackPawn, at: { file: "c", rank: 7 } },
-      { value: ChessPiece.BlackPawn, at: { file: "d", rank: 7 } },
-      { value: ChessPiece.BlackPawn, at: { file: "e", rank: 7 } },
-      { value: ChessPiece.BlackPawn, at: { file: "f", rank: 7 } },
-      { value: ChessPiece.BlackPawn, at: { file: "g", rank: 7 } },
-      { value: ChessPiece.BlackPawn, at: { file: "h", rank: 7 } },
-      { value: ChessPiece.WhitePawn, at: { file: "a", rank: 2 } },
-      { value: ChessPiece.WhitePawn, at: { file: "b", rank: 2 } },
-      { value: ChessPiece.WhitePawn, at: { file: "c", rank: 2 } },
-      { value: ChessPiece.WhitePawn, at: { file: "d", rank: 2 } },
-      { value: ChessPiece.WhitePawn, at: { file: "e", rank: 2 } },
-      { value: ChessPiece.WhitePawn, at: { file: "f", rank: 2 } },
-      { value: ChessPiece.WhitePawn, at: { file: "g", rank: 2 } },
-      { value: ChessPiece.WhitePawn, at: { file: "h", rank: 2 } },
-      { value: ChessPiece.WhiteRook, at: { file: "a", rank: 1 } },
-      { value: ChessPiece.WhiteKnight, at: { file: "b", rank: 1 } },
-      { value: ChessPiece.WhiteBishop, at: { file: "c", rank: 1 } },
-      { value: ChessPiece.WhiteQueen, at: { file: "d", rank: 1 } },
-      { value: ChessPiece.WhiteKing, at: { file: "e", rank: 1 } },
-      { value: ChessPiece.WhiteBishop, at: { file: "f", rank: 1 } },
-      { value: ChessPiece.WhiteKnight, at: { file: "g", rank: 1 } },
-      { value: ChessPiece.WhiteRook, at: { file: "h", rank: 1 } }
+      {
+        at: { file: "a", rank: 8 },
+        isCaptured: false,
+        value: ChessPiece.BlackRook
+      },
+      {
+        at: { file: "b", rank: 8 },
+        isCaptured: false,
+        value: ChessPiece.BlackKnight
+      },
+      {
+        at: { file: "c", rank: 8 },
+        isCaptured: false,
+        value: ChessPiece.BlackBishop
+      },
+      {
+        at: { file: "d", rank: 8 },
+        isCaptured: false,
+        value: ChessPiece.BlackQueen
+      },
+      {
+        at: { file: "e", rank: 8 },
+        isCaptured: false,
+        value: ChessPiece.BlackKing
+      },
+      {
+        at: { file: "f", rank: 8 },
+        isCaptured: false,
+        value: ChessPiece.BlackBishop
+      },
+      {
+        at: { file: "g", rank: 8 },
+        isCaptured: false,
+        value: ChessPiece.BlackKnight
+      },
+      {
+        at: { file: "h", rank: 8 },
+        isCaptured: false,
+        value: ChessPiece.BlackRook
+      },
+      {
+        at: { file: "a", rank: 7 },
+        isCaptured: false,
+        value: ChessPiece.BlackPawn
+      },
+      {
+        at: { file: "b", rank: 7 },
+        isCaptured: false,
+        value: ChessPiece.BlackPawn
+      },
+      {
+        at: { file: "c", rank: 7 },
+        isCaptured: false,
+        value: ChessPiece.BlackPawn
+      },
+      {
+        at: { file: "d", rank: 7 },
+        isCaptured: false,
+        value: ChessPiece.BlackPawn
+      },
+      {
+        at: { file: "e", rank: 7 },
+        isCaptured: false,
+        value: ChessPiece.BlackPawn
+      },
+      {
+        at: { file: "f", rank: 7 },
+        isCaptured: false,
+        value: ChessPiece.BlackPawn
+      },
+      {
+        at: { file: "g", rank: 7 },
+        isCaptured: false,
+        value: ChessPiece.BlackPawn
+      },
+      {
+        at: { file: "h", rank: 7 },
+        isCaptured: false,
+        value: ChessPiece.BlackPawn
+      },
+      {
+        at: { file: "a", rank: 2 },
+        isCaptured: false,
+        value: ChessPiece.WhitePawn
+      },
+      {
+        at: { file: "b", rank: 2 },
+        isCaptured: false,
+        value: ChessPiece.WhitePawn
+      },
+      {
+        at: { file: "c", rank: 2 },
+        isCaptured: false,
+        value: ChessPiece.WhitePawn
+      },
+      {
+        at: { file: "d", rank: 2 },
+        isCaptured: false,
+        value: ChessPiece.WhitePawn
+      },
+      {
+        at: { file: "e", rank: 2 },
+        isCaptured: false,
+        value: ChessPiece.WhitePawn
+      },
+      {
+        at: { file: "f", rank: 2 },
+        isCaptured: false,
+        value: ChessPiece.WhitePawn
+      },
+      {
+        at: { file: "g", rank: 2 },
+        isCaptured: false,
+        value: ChessPiece.WhitePawn
+      },
+      {
+        at: { file: "h", rank: 2 },
+        isCaptured: false,
+        value: ChessPiece.WhitePawn
+      },
+      {
+        at: { file: "a", rank: 1 },
+        isCaptured: false,
+        value: ChessPiece.WhiteRook
+      },
+      {
+        at: { file: "b", rank: 1 },
+        isCaptured: false,
+        value: ChessPiece.WhiteKnight
+      },
+      {
+        at: { file: "c", rank: 1 },
+        isCaptured: false,
+        value: ChessPiece.WhiteBishop
+      },
+      {
+        at: { file: "d", rank: 1 },
+        isCaptured: false,
+        value: ChessPiece.WhiteQueen
+      },
+      {
+        at: { file: "e", rank: 1 },
+        isCaptured: false,
+        value: ChessPiece.WhiteKing
+      },
+      {
+        at: { file: "f", rank: 1 },
+        isCaptured: false,
+        value: ChessPiece.WhiteBishop
+      },
+      {
+        at: { file: "g", rank: 1 },
+        isCaptured: false,
+        value: ChessPiece.WhiteKnight
+      },
+      {
+        at: { file: "h", rank: 1 },
+        isCaptured: false,
+        value: ChessPiece.WhiteRook
+      }
     ];
 
     const finalPieces = moves.reduce((acc, move) => {
-      // const isAtToSquare = acc.findIndex(
-      //   piece =>
-      //     piece.at.rank === move.to.rank && piece.at.file === move.to.file
-      // );
-      const isAtFromSquare = acc.findIndex(
-        piece =>
-          piece.at.rank === move.from.rank && piece.at.file === move.from.file
-      );
-      const fromMoved = acc.map(
-        (piece, index) =>
-          index === isAtFromSquare
-            ? { ...piece, at: { file: move.to.file, rank: move.to.rank } }
-            : piece
-      );
-      return fromMoved;
+      return acc
+        .map(
+          (piece, index) =>
+            piece.at.rank === move.to.rank && piece.at.file === move.to.file
+              ? { ...piece, isCaptured: true }
+              : piece
+        )
+        .map(
+          (piece, index) =>
+            piece.at.rank === move.from.rank && piece.at.file === move.from.file
+              ? { ...piece, at: { file: move.to.file, rank: move.to.rank } }
+              : piece
+        );
     }, allPieces);
     return finalPieces;
   };

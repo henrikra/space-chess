@@ -102,7 +102,8 @@ export default class ChessPiece extends React.Component<IProps> {
             "chess-piece",
             `${this.props.chessPiece.at.file}${this.props.chessPiece.at.rank}`,
             {
-              "chess-piece--active": this.props.isActive
+              // "chess-piece--active": this.props.isActive
+              "chess-piece--captured": this.props.chessPiece.isCaptured
             }
           )}
         >
