@@ -6,7 +6,7 @@ import { RouteComponentProps } from "react-router";
 import api, { Role } from "./api";
 import { ChessPiece, Move, Square } from "./backendCommon/common";
 import BoardSquare from "./BoardSquare";
-import BoardPiece from "./ChessPiece";
+import BoardPiece from "./BoardPiece";
 import env from "./env";
 import "./GameRoom.css";
 import withAuthentication, {
