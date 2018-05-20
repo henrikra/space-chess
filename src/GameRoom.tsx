@@ -1,23 +1,15 @@
-import * as firebase from "firebase";
-import "firebase/firestore";
+import { Unsubscribe } from "firebase";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 
 import api, { Role } from "./api";
 import { ChessPiece, Move, Square } from "./backendCommon/common";
-import env from "./env";
-import withAuthentication, {
-  WithAuthenticationProps
-} from "./hocs/withAuthentication";
+import withAuthentication, {WithAuthenticationProps} from "./hocs/withAuthentication";
 import { initialPieces } from "./utils";
 import Board from "./Board";
+import { firestore } from "./firebase";
 
-firebase.initializeApp(env.firebase);
-
-const firestore = firebase.firestore();
-firestore.settings({ timestampsInSnapshots: true });
-
-interface IRoomResponse {
+interface RoomResponse {
   isGameFull: boolean;
   moves: Move[];
 }
@@ -28,7 +20,7 @@ export interface PieceOnBoard {
   isCaptured: boolean;
 }
 
-interface IState {
+interface State {
   isWhiteTurn: boolean;
   pieces?: PieceOnBoard[];
   isGameFull: boolean;
@@ -39,9 +31,9 @@ interface IProps
   extends RouteComponentProps<{ roomId: string }>,
     WithAuthenticationProps {}
 
-class GameRoom extends React.Component<IProps, IState> {
-  public roomListenerUnsubscribe: firebase.Unsubscribe;
-  public state: IState = {
+class GameRoom extends React.Component<IProps, State> {
+  public roomListenerUnsubscribe: Unsubscribe;
+  public state: State = {
     isGameFull: true,
     isWhiteTurn: true,
     role: "spectator"
@@ -70,7 +62,7 @@ class GameRoom extends React.Component<IProps, IState> {
       .collection("rooms")
       .doc(this.props.match.params.roomId)
       .onSnapshot(doc => {
-        const game = doc.data() as IRoomResponse;
+        const game = doc.data() as RoomResponse;
         this.setState({
           isGameFull: game.isGameFull,
           isWhiteTurn: game.moves.length % 2 === 0,

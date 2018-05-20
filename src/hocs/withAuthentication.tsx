@@ -1,5 +1,7 @@
-import * as firebase from "firebase";
 import * as React from "react";
+import { Unsubscribe } from "firebase";
+
+import { auth } from "../firebase";
 
 interface State {
   userId?: string;
@@ -14,25 +16,20 @@ function withAuthentication<T>(
 ) {
   return class extends React.Component<T, State> {
     public state: State = {};
-    public authListenerUnsubscribe: firebase.Unsubscribe;
+    public authListenerUnsubscribe: Unsubscribe;
 
     public componentWillMount() {
-      this.authListenerUnsubscribe = firebase
-        .auth()
-        .onAuthStateChanged(user => {
-          if (user) {
-            this.setState({ userId: user.uid });
-          } else {
-            firebase
-              .auth()
-              .signInAnonymously()
-              .catch(error => {
-                alert(
-                  "We couldn't create account for you. For that reason you can only watch other people play"
-                );
-              });
-          }
-        });
+      this.authListenerUnsubscribe = auth.onAuthStateChanged(user => {
+        if (user) {
+          this.setState({ userId: user.uid });
+        } else {
+          auth.signInAnonymously().catch(error => {
+            alert(
+              "We couldn't create account for you. For that reason you can only watch other people play"
+            );
+          });
+        }
+      });
     }
 
     public componentWillUnmount() {
