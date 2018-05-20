@@ -4,10 +4,13 @@ import { RouteComponentProps } from "react-router";
 
 import api, { Role } from "./api";
 import { ChessPiece, Move, Square } from "./backendCommon/common";
-import withAuthentication, {WithAuthenticationProps} from "./hocs/withAuthentication";
+import withAuthentication, {
+  WithAuthenticationProps
+} from "./hocs/withAuthentication";
 import { initialPieces } from "./utils";
 import Board from "./Board";
 import { firestore } from "./firebase";
+import './GameRoom.css';
 
 interface RoomResponse {
   isGameFull: boolean;
@@ -25,6 +28,8 @@ interface State {
   pieces?: PieceOnBoard[];
   isGameFull: boolean;
   role: Role;
+  isLoading: boolean;
+  error?: string;
 }
 
 interface IProps
@@ -36,7 +41,8 @@ class GameRoom extends React.Component<IProps, State> {
   public state: State = {
     isGameFull: true,
     isWhiteTurn: true,
-    role: "spectator"
+    role: "spectator",
+    isLoading: true
   };
 
   public calculatePiecesFromMoves = (moves: Move[]) => {
@@ -62,12 +68,21 @@ class GameRoom extends React.Component<IProps, State> {
       .collection("rooms")
       .doc(this.props.match.params.roomId)
       .onSnapshot(doc => {
-        const game = doc.data() as RoomResponse;
-        this.setState({
-          isGameFull: game.isGameFull,
-          isWhiteTurn: game.moves.length % 2 === 0,
-          pieces: this.calculatePiecesFromMoves(game.moves)
-        });
+        const game = doc.data() as RoomResponse | undefined;
+        if (game) {
+          this.setState({
+            isGameFull: game.isGameFull,
+            isWhiteTurn: game.moves.length % 2 === 0,
+            pieces: this.calculatePiecesFromMoves(game.moves),
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false,
+            error: "This game does not exist",
+            pieces: undefined
+          });
+        }
       });
   }
 
@@ -80,7 +95,7 @@ class GameRoom extends React.Component<IProps, State> {
         });
         this.setState({ role: response.data.role });
       } catch (error) {
-        alert(error.response.data.error);
+        // ignore error
       }
     }
   }
@@ -112,7 +127,9 @@ class GameRoom extends React.Component<IProps, State> {
           this.state.role === "spectator" && (
             <button onClick={this.joinGame}>Join the game</button>
           )}
-        {this.state.pieces ? (
+        {this.state.isLoading && <p>Loading game room</p>}
+        {this.state.error && <p className="error">{this.state.error}</p>}
+        {this.state.pieces && (
           <>
             <Board
               pieces={this.state.pieces}
@@ -125,8 +142,6 @@ class GameRoom extends React.Component<IProps, State> {
             {this.state.role === "white" && <p>You are white</p>}
             {this.state.role === "black" && <p>You are black</p>}
           </>
-        ) : (
-          <p>Loading board</p>
         )}
       </div>
     );
