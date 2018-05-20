@@ -224,9 +224,9 @@ class GameRoom extends React.Component<IProps, IState> {
         {this.state.board ? (
           <>
             <div className="board">
-              {Array.apply(null, { length: 64 })
-                .map(Number.call, Number)
-                .map((index: number) => (
+              {Array.from({ length: 64 })
+                .map((_, i) => i)
+                .map(index => (
                   <BoardSquare
                     key={index}
                     index={index}
