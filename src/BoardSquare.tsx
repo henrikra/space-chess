@@ -1,6 +1,8 @@
 import * as classNames from "classnames";
 import * as React from "react";
 
+import './BoardSquare.css';
+
 interface Props {
   index: number;
   isActive: boolean;
@@ -16,9 +18,9 @@ class BoardSquare extends React.Component<Props> {
   public render() {
     return (
       <div
-        className={classNames("square", {
-          "square--active": this.props.isActive,
-          "square--dark": this.props.isDark
+        className={classNames("board-square", {
+          "board-square--active": this.props.isActive,
+          "board-square--dark": this.props.isDark
         })}
         onClick={this.onClick}
       />

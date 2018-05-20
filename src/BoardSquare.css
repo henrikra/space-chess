@@ -1,0 +1,21 @@
+.board-square {
+  cursor: pointer;
+  height: var(--piece-side);
+  background: #80AC51;
+}
+
+.board-square:hover {
+  background: #ccc;
+}
+
+.board-square:hover.board-square--active {
+  background: var(--active-color);
+}
+
+.board-square--dark {
+  background: #678E49;
+}
+
+.board-square--active {
+  background: var(--active-color);
+}

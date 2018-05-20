@@ -1,6 +1,8 @@
 import * as classNames from "classnames";
 import * as React from "react";
+
 import { PieceOnBoard } from "./GameRoom";
+import "./BoardPiece.css";
 
 const getChessPieceIcon = (chessPieceNumber: number) => {
   switch (chessPieceNumber) {
@@ -40,10 +42,10 @@ interface IProps {
 const BoardPiece: React.StatelessComponent<IProps> = ({ chessPiece }) => (
   <div
     className={classNames(
-      "chess-piece",
+      "board-piece",
       `${chessPiece.at.file}${chessPiece.at.rank}`,
       {
-        "chess-piece--captured": chessPiece.isCaptured
+        "board-piece--captured": chessPiece.isCaptured
       }
     )}
   >
