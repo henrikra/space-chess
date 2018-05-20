@@ -1,7 +1,8 @@
 .board-square {
   cursor: pointer;
   height: var(--piece-side);
-  background: #80AC51;
+  background: #80ac51;
+  transition: all 0.25s;
 }
 
 .board-square:hover {
@@ -13,7 +14,7 @@
 }
 
 .board-square--dark {
-  background: #678E49;
+  background: #678e49;
 }
 
 .board-square--active {
