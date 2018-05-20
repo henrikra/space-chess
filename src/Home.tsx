@@ -2,15 +2,15 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import api from "./api";
-import withAuthentication, {
-  WithAuthenticationProps
-} from "./hocs/withAuthentication";
+import { Consumer } from "./userContext";
 
 interface State {
   isLoading: boolean;
 }
 
-interface Props extends RouteComponentProps<any>, WithAuthenticationProps {}
+interface Props extends RouteComponentProps<any> {
+  userId?: string;
+}
 
 class Home extends React.Component<Props, State> {
   public state: State = {
@@ -48,4 +48,8 @@ class Home extends React.Component<Props, State> {
   }
 }
 
-export default withAuthentication(Home);
+export default (props: Props) => (
+  <Consumer>
+    {({ state }: GlobalState) => <Home {...props} userId={state.userId} />}
+  </Consumer>
+);

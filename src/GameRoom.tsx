@@ -4,13 +4,11 @@ import { RouteComponentProps } from "react-router";
 
 import api, { Role } from "./api";
 import { ChessPiece, Move, Square } from "./backendCommon/common";
-import withAuthentication, {
-  WithAuthenticationProps
-} from "./hocs/withAuthentication";
 import { initialPieces } from "./utils";
 import Board from "./Board";
 import { firestore } from "./firebase";
-import './GameRoom.css';
+import "./GameRoom.css";
+import { Consumer } from "./userContext";
 
 interface RoomResponse {
   isGameFull: boolean;
@@ -32,11 +30,11 @@ interface State {
   error?: string;
 }
 
-interface IProps
-  extends RouteComponentProps<{ roomId: string }>,
-    WithAuthenticationProps {}
+interface Props extends RouteComponentProps<{ roomId: string }> {
+  userId?: string;
+}
 
-class GameRoom extends React.Component<IProps, State> {
+class GameRoom extends React.Component<Props, State> {
   public roomListenerUnsubscribe: Unsubscribe;
   public state: State = {
     isGameFull: true,
@@ -86,7 +84,7 @@ class GameRoom extends React.Component<IProps, State> {
       });
   }
 
-  public async componentWillReceiveProps(nextProps: IProps) {
+  public async componentWillReceiveProps(nextProps: Props) {
     if (nextProps.userId) {
       try {
         const response = await api.whoAmI({
@@ -148,4 +146,8 @@ class GameRoom extends React.Component<IProps, State> {
   }
 }
 
-export default withAuthentication(GameRoom);
+export default (props: Props) => (
+  <Consumer>
+    {({ state }: GlobalState) => <GameRoom {...props} userId={state.userId} />}
+  </Consumer>
+);
