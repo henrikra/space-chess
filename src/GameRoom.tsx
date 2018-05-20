@@ -1,11 +1,12 @@
+import * as classNames from "classnames";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 
 import api, { Role } from "./api";
-import { calculateNewBoard, initialBoard, Move } from "./backendCommon/common";
-import ChessPiece from "./ChessPiece";
+import { ChessPiece, Move, Square } from "./backendCommon/common";
+import ChessPieceLol from "./ChessPiece";
 import env from "./env";
 import "./GameRoom.css";
 import withAuthentication, {
@@ -31,9 +32,15 @@ interface IRoomResponse {
   moves: Move[];
 }
 
+export interface PieceOnBoard {
+  value: ChessPiece;
+  at: Square;
+}
+
 interface IState {
   isWhiteTurn: boolean;
   board?: number[];
+  newBoard?: PieceOnBoard[];
   activeIndex?: number;
   isGameFull: boolean;
   role: Role;
@@ -51,18 +58,80 @@ class GameRoom extends React.Component<IProps, IState> {
     role: "spectator"
   };
 
+  public getPiecesFromMoves = (moves: Move[]) => {
+    const allPieces = [
+      { value: ChessPiece.BlackRook, at: { file: "a", rank: 8 } },
+      { value: ChessPiece.BlackKnight, at: { file: "b", rank: 8 } },
+      { value: ChessPiece.BlackBishop, at: { file: "c", rank: 8 } },
+      { value: ChessPiece.BlackQueen, at: { file: "d", rank: 8 } },
+      { value: ChessPiece.BlackKing, at: { file: "e", rank: 8 } },
+      { value: ChessPiece.BlackBishop, at: { file: "f", rank: 8 } },
+      { value: ChessPiece.BlackKnight, at: { file: "g", rank: 8 } },
+      { value: ChessPiece.BlackRook, at: { file: "h", rank: 8 } },
+      { value: ChessPiece.BlackPawn, at: { file: "a", rank: 7 } },
+      { value: ChessPiece.BlackPawn, at: { file: "b", rank: 7 } },
+      { value: ChessPiece.BlackPawn, at: { file: "c", rank: 7 } },
+      { value: ChessPiece.BlackPawn, at: { file: "d", rank: 7 } },
+      { value: ChessPiece.BlackPawn, at: { file: "e", rank: 7 } },
+      { value: ChessPiece.BlackPawn, at: { file: "f", rank: 7 } },
+      { value: ChessPiece.BlackPawn, at: { file: "g", rank: 7 } },
+      { value: ChessPiece.BlackPawn, at: { file: "h", rank: 7 } },
+      { value: ChessPiece.WhitePawn, at: { file: "a", rank: 2 } },
+      { value: ChessPiece.WhitePawn, at: { file: "b", rank: 2 } },
+      { value: ChessPiece.WhitePawn, at: { file: "c", rank: 2 } },
+      { value: ChessPiece.WhitePawn, at: { file: "d", rank: 2 } },
+      { value: ChessPiece.WhitePawn, at: { file: "e", rank: 2 } },
+      { value: ChessPiece.WhitePawn, at: { file: "f", rank: 2 } },
+      { value: ChessPiece.WhitePawn, at: { file: "g", rank: 2 } },
+      { value: ChessPiece.WhitePawn, at: { file: "h", rank: 2 } },
+      { value: ChessPiece.WhiteRook, at: { file: "a", rank: 1 } },
+      { value: ChessPiece.WhiteKnight, at: { file: "b", rank: 1 } },
+      { value: ChessPiece.WhiteBishop, at: { file: "c", rank: 1 } },
+      { value: ChessPiece.WhiteQueen, at: { file: "d", rank: 1 } },
+      { value: ChessPiece.WhiteKing, at: { file: "e", rank: 1 } },
+      { value: ChessPiece.WhiteBishop, at: { file: "f", rank: 1 } },
+      { value: ChessPiece.WhiteKnight, at: { file: "g", rank: 1 } },
+      { value: ChessPiece.WhiteRook, at: { file: "h", rank: 1 } }
+    ];
+
+    const finalPieces = moves.reduce((acc, move) => {
+      // const isAtToSquare = acc.findIndex(
+      //   piece =>
+      //     piece.at.rank === move.to.rank && piece.at.file === move.to.file
+      // );
+      const isAtFromSquare = acc.findIndex(
+        piece =>
+          piece.at.rank === move.from.rank && piece.at.file === move.from.file
+      );
+      const fromMoved = acc.map(
+        (piece, index) =>
+          index === isAtFromSquare
+            ? { ...piece, at: { file: move.to.file, rank: move.to.rank } }
+            : piece
+      );
+      return fromMoved;
+    }, allPieces);
+    return finalPieces;
+  };
+
   public componentWillMount() {
     this.roomListenerUnsubscribe = firestore
       .collection("rooms")
       .doc(this.props.match.params.roomId)
       .onSnapshot(doc => {
         const game = doc.data() as IRoomResponse;
-        const newBoard = calculateNewBoard(initialBoard, game.moves);
-
+        // const newBoard = calculateNewBoard(initialBoard, game.moves);
+        const allPieces = this.getPiecesFromMoves(game.moves);
+        // tee uusi calculateNewBoard joka palauttaa yhtä pitkän listan aina
+        // listassa on kaikki pelinappulat
+        // pelinappulalla on tietomissä se on
+        // nappulalla on myös tieto onko se kuollut
         this.setState({
-          board: newBoard.filter(piece => piece !== -1),
+          // board: newBoard.filter(piece => piece !== -1),
+          // board: newBoard.filter(piece => piece !== -1),
           isGameFull: game.isGameFull,
-          isWhiteTurn: game.moves.length % 2 === 0
+          isWhiteTurn: game.moves.length % 2 === 0,
+          newBoard: allPieces
         });
       });
   }
@@ -188,6 +257,8 @@ class GameRoom extends React.Component<IProps, IState> {
     return isEvenRow ? !isEvenFile : isEvenFile;
   };
 
+  public createSelectSquare = (index: number) => () => this.selectSquare(index);
+
   public render() {
     return (
       <div>
@@ -197,11 +268,23 @@ class GameRoom extends React.Component<IProps, IState> {
           this.state.role === "spectator" && (
             <button onClick={this.joinGame}>Join the game</button>
           )}
-        {this.state.board ? (
+        {this.state.newBoard ? (
           <>
             <div className="board">
-              {this.state.board.map((chessPiece, index) => (
-                <ChessPiece
+              {Array.apply(null, { length: 64 })
+                .map(Number.call, Number)
+                .map((index: number) => (
+                  <div
+                    key={index}
+                    className={classNames("square", {
+                      "square--active": this.state.activeIndex === index,
+                      "square--dark": this.isDark(index)
+                    })}
+                    onClick={this.createSelectSquare(index)}
+                  />
+                ))}
+              {this.state.newBoard.map((chessPiece, index) => (
+                <ChessPieceLol
                   key={index}
                   chessPiece={chessPiece}
                   index={index}

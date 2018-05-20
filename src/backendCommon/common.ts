@@ -4,6 +4,22 @@ export interface Move {
   to: Square;
 }
 
+export enum ChessPiece {
+  None,
+  WhitePawn,
+  WhiteRook,
+  WhiteKnight,
+  WhiteBishop,
+  WhiteQueen,
+  WhiteKing,
+  BlackPawn,
+  BlackRook,
+  BlackKnight,
+  BlackBishop,
+  BlackQueen,
+  BlackKing
+}
+
 export interface Square {
   file: string;
   rank: number;

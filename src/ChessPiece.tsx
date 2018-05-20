@@ -1,39 +1,40 @@
 import * as classNames from "classnames";
 import * as React from "react";
+import { PieceOnBoard } from "./GameRoom";
 
-// const getChessPieceIcon = (chessPieceNumber: number) => {
-//   switch (chessPieceNumber) {
-//     case 1:
-//       return "\u2659";
-//     case 2:
-//       return "\u2656";
-//     case 3:
-//       return "\u2658";
-//     case 4:
-//       return "\u2657";
-//     case 5:
-//       return "\u2655";
-//     case 6:
-//       return "\u2654";
-//     case 7:
-//       return "\u265F";
-//     case 8:
-//       return "\u265C";
-//     case 9:
-//       return "\u265E";
-//     case 10:
-//       return "\u265D";
-//     case 11:
-//       return "\u265B";
-//     case 12:
-//       return "\u265A";
-//     default:
-//       return "";
-//   }
-// };
+const getChessPieceIcon = (chessPieceNumber: number) => {
+  switch (chessPieceNumber) {
+    case 1:
+      return "\u2659";
+    case 2:
+      return "\u2656";
+    case 3:
+      return "\u2658";
+    case 4:
+      return "\u2657";
+    case 5:
+      return "\u2655";
+    case 6:
+      return "\u2654";
+    case 7:
+      return "\u265F";
+    case 8:
+      return "\u265C";
+    case 9:
+      return "\u265E";
+    case 10:
+      return "\u265D";
+    case 11:
+      return "\u265B";
+    case 12:
+      return "\u265A";
+    default:
+      return "";
+  }
+};
 
 interface IProps {
-  chessPiece: number;
+  chessPiece: PieceOnBoard;
   index: number;
   isActive: boolean;
   isDark: boolean;
@@ -90,23 +91,23 @@ export default class ChessPiece extends React.Component<IProps> {
   public render() {
     return (
       <>
-        <div
+        {/* <div
           className={classNames("square", {
             "square--dark": this.props.isDark
           })}
             onClick={this.selectSquare}
-        />
-        {/* <div
+        /> */}
+        <div
           className={classNames(
             "chess-piece",
-            getFileAndrank(this.props.index),
+            `${this.props.chessPiece.at.file}${this.props.chessPiece.at.rank}`,
             {
               "chess-piece--active": this.props.isActive
             }
           )}
         >
-          {getChessPieceIcon(this.props.chessPiece)}
-        </div> */}
+          {getChessPieceIcon(this.props.chessPiece.value)}
+        </div>
       </>
     );
   }
