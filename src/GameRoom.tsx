@@ -41,7 +41,7 @@ export interface PieceOnBoard {
 
 interface IState {
   isWhiteTurn: boolean;
-  board?: PieceOnBoard[];
+  pieces?: PieceOnBoard[];
   activeIndex?: number;
   isGameFull: boolean;
   role: Role;
@@ -59,7 +59,7 @@ class GameRoom extends React.Component<IProps, IState> {
     role: "spectator"
   };
 
-  public calculateBoardFromMoves = (moves: Move[]) => {
+  public calculatePiecesFromMoves = (moves: Move[]) => {
     return moves.reduce((pieces, move) => {
       return pieces
         .map(
@@ -84,9 +84,9 @@ class GameRoom extends React.Component<IProps, IState> {
       .onSnapshot(doc => {
         const game = doc.data() as IRoomResponse;
         this.setState({
-          board: this.calculateBoardFromMoves(game.moves),
           isGameFull: game.isGameFull,
-          isWhiteTurn: game.moves.length % 2 === 0
+          isWhiteTurn: game.moves.length % 2 === 0,
+          pieces: this.calculatePiecesFromMoves(game.moves),
         });
       });
   }
@@ -107,11 +107,11 @@ class GameRoom extends React.Component<IProps, IState> {
 
   public componentDidUpdate(prevProps: IProps, prevState: IState) {
     const hasBoardChanged =
-      this.state.board &&
-      !this.state.board.every(
-        (piece, index) => !!prevState.board && prevState.board[index] === piece
+      this.state.pieces &&
+      !this.state.pieces.every(
+        (piece, index) => !!prevState.pieces && prevState.pieces[index] === piece
       );
-    if (prevState.board && hasBoardChanged) {
+    if (prevState.pieces && hasBoardChanged) {
       playSound();
     }
   }
@@ -221,7 +221,7 @@ class GameRoom extends React.Component<IProps, IState> {
           this.state.role === "spectator" && (
             <button onClick={this.joinGame}>Join the game</button>
           )}
-        {this.state.board ? (
+        {this.state.pieces ? (
           <>
             <div className="board">
               {Array.from({ length: 64 })
@@ -235,7 +235,7 @@ class GameRoom extends React.Component<IProps, IState> {
                     isActive={this.state.activeIndex === index}
                   />
                 ))}
-              {this.state.board.map((chessPiece, index) => (
+              {this.state.pieces.map((chessPiece, index) => (
                 <BoardPiece key={index} chessPiece={chessPiece} />
               ))}
             </div>
