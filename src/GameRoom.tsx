@@ -1,4 +1,3 @@
-import * as classNames from "classnames";
 import * as firebase from "firebase";
 import "firebase/firestore";
 import * as React from "react";
@@ -6,7 +5,8 @@ import { RouteComponentProps } from "react-router";
 
 import api, { Role } from "./api";
 import { ChessPiece, Move, Square } from "./backendCommon/common";
-import ChessPieceLol from "./ChessPiece";
+import BoardSquare from "./BoardSquare";
+import BoardPiece from "./ChessPiece";
 import env from "./env";
 import "./GameRoom.css";
 import withAuthentication, {
@@ -86,7 +86,7 @@ class GameRoom extends React.Component<IProps, IState> {
         this.setState({
           board: this.calculateBoardFromMoves(game.moves),
           isGameFull: game.isGameFull,
-          isWhiteTurn: game.moves.length % 2 === 0,
+          isWhiteTurn: game.moves.length % 2 === 0
         });
       });
   }
@@ -212,8 +212,6 @@ class GameRoom extends React.Component<IProps, IState> {
     return isEvenRow ? !isEvenFile : isEvenFile;
   };
 
-  public createSelectSquare = (index: number) => () => this.selectSquare(index);
-
   public render() {
     return (
       <div>
@@ -229,17 +227,15 @@ class GameRoom extends React.Component<IProps, IState> {
               {Array.apply(null, { length: 64 })
                 .map(Number.call, Number)
                 .map((index: number) => (
-                  <div
-                    key={index}
-                    className={classNames("square", {
-                      "square--active": this.state.activeIndex === index,
-                      "square--dark": this.isDark(index)
-                    })}
-                    onClick={this.createSelectSquare(index)}
+                  <BoardSquare
+                    index={index}
+                    onPress={this.selectSquare}
+                    isDark={this.isDark(index)}
+                    isActive={this.state.activeIndex === index}
                   />
                 ))}
               {this.state.board.map((chessPiece, index) => (
-                <ChessPieceLol
+                <BoardPiece
                   key={index}
                   chessPiece={chessPiece}
                   index={index}
