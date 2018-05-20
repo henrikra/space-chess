@@ -228,6 +228,7 @@ class GameRoom extends React.Component<IProps, IState> {
                 .map(Number.call, Number)
                 .map((index: number) => (
                   <BoardSquare
+                    key={index}
                     index={index}
                     onPress={this.selectSquare}
                     isDark={this.isDark(index)}
@@ -235,14 +236,7 @@ class GameRoom extends React.Component<IProps, IState> {
                   />
                 ))}
               {this.state.board.map((chessPiece, index) => (
-                <BoardPiece
-                  key={index}
-                  chessPiece={chessPiece}
-                  index={index}
-                  onPress={this.selectSquare}
-                  isActive={this.state.activeIndex === index}
-                  isDark={this.isDark(index)}
-                />
+                <BoardPiece key={index} chessPiece={chessPiece} />
               ))}
             </div>
             {this.state.isGameFull && (

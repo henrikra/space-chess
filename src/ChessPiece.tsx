@@ -35,81 +35,20 @@ const getChessPieceIcon = (chessPieceNumber: number) => {
 
 interface IProps {
   chessPiece: PieceOnBoard;
-  index: number;
-  isActive: boolean;
-  isDark: boolean;
-  onPress(index: number): void;
 }
 
-// const getRank = (index: number) => {
-//   if (index < 8) {
-//     return "8";
-//   } else if (index < 16) {
-//     return "7";
-//   } else if (index < 24) {
-//     return "6";
-//   } else if (index < 32) {
-//     return "5";
-//   } else if (index < 40) {
-//     return "4";
-//   } else if (index < 48) {
-//     return "3";
-//   } else if (index < 56) {
-//     return "2";
-//   }
-//   return "1";
-// };
+const BoardPiece: React.StatelessComponent<IProps> = ({ chessPiece }) => (
+  <div
+    className={classNames(
+      "chess-piece",
+      `${chessPiece.at.file}${chessPiece.at.rank}`,
+      {
+        "chess-piece--captured": chessPiece.isCaptured
+      }
+    )}
+  >
+    {getChessPieceIcon(chessPiece.value)}
+  </div>
+);
 
-// const getFile = (index: number) => {
-//   if (index % 8 === 0) {
-//     return "a";
-//   } else if (index % 8 === 1) {
-//     return "b";
-//   } else if (index % 8 === 2) {
-//     return "c";
-//   } else if (index % 8 === 3) {
-//     return "d";
-//   } else if (index % 8 === 4) {
-//     return "e";
-//   } else if (index % 8 === 5) {
-//     return "f";
-//   } else if (index % 8 === 6) {
-//     return "g";
-//   }
-//   return "h";
-// };
-
-// const getFileAndrank = (index: number) => {
-//   return getFile(index) + getRank(index);
-// };
-
-export default class ChessPiece extends React.Component<IProps> {
-  public selectSquare = () => {
-    this.props.onPress(this.props.index);
-  };
-
-  public render() {
-    return (
-      <>
-        {/* <div
-          className={classNames("square", {
-            "square--dark": this.props.isDark
-          })}
-            onClick={this.selectSquare}
-        /> */}
-        <div
-          className={classNames(
-            "chess-piece",
-            `${this.props.chessPiece.at.file}${this.props.chessPiece.at.rank}`,
-            {
-              // "chess-piece--active": this.props.isActive
-              "chess-piece--captured": this.props.chessPiece.isCaptured
-            }
-          )}
-        >
-          {getChessPieceIcon(this.props.chessPiece.value)}
-        </div>
-      </>
-    );
-  }
-}
+export default BoardPiece;
