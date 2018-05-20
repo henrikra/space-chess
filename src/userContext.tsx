@@ -10,7 +10,11 @@ interface State {
   userId?: string;
 }
 
-class Provider extends React.Component<any, State> {
+export interface UserContextProps {
+  userId?: string;
+}
+
+class Provider extends React.Component<{}, State> {
   public store = Store;
 
   public authListenerUnsubscribe: Unsubscribe;

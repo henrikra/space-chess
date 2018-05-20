@@ -2,15 +2,13 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 
 import api from "./api";
-import { Consumer } from "./userContext";
+import { Consumer, UserContextProps } from "./userContext";
 
 interface State {
   isLoading: boolean;
 }
 
-interface Props extends RouteComponentProps<any> {
-  userId?: string;
-}
+interface Props extends RouteComponentProps<{}>, UserContextProps {}
 
 class Home extends React.Component<Props, State> {
   public state: State = {

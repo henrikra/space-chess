@@ -8,7 +8,7 @@ import { initialPieces } from "./utils";
 import Board from "./Board";
 import { firestore } from "./firebase";
 import "./GameRoom.css";
-import { Consumer } from "./userContext";
+import { Consumer, UserContextProps } from "./userContext";
 
 interface RoomResponse {
   isGameFull: boolean;
@@ -30,9 +30,9 @@ interface State {
   error?: string;
 }
 
-interface Props extends RouteComponentProps<{ roomId: string }> {
-  userId?: string;
-}
+interface Props
+  extends RouteComponentProps<{ roomId: string }>,
+    UserContextProps {}
 
 class GameRoom extends React.Component<Props, State> {
   public roomListenerUnsubscribe: Unsubscribe;
