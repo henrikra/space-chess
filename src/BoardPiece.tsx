@@ -35,11 +35,11 @@ const getChessPieceIcon = (chessPieceNumber: number) => {
   }
 };
 
-interface IProps {
+interface Props {
   chessPiece: PieceOnBoard;
 }
 
-const BoardPiece: React.StatelessComponent<IProps> = ({ chessPiece }) => (
+const BoardPiece: React.StatelessComponent<Props> = ({ chessPiece }) => (
   <div
     className={classNames(
       "board-piece",

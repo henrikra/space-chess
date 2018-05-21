@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Unsubscribe } from "firebase";
 import { auth } from "./firebase";
-import Store from "./store";
 
 const UserContext = React.createContext();
 const { Consumer } = UserContext;
@@ -15,17 +14,12 @@ export interface UserContextProps {
 }
 
 class Provider extends React.Component<{}, State> {
-  public store = Store;
-
   public authListenerUnsubscribe: Unsubscribe;
-  public state: State = {
-    userId: this.store.getUser()
-  };
+  public state: State = {};
 
   public componentWillMount() {
     this.authListenerUnsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        this.store.setUser(user.uid);
         this.setState({ userId: user.uid });
       } else {
         auth.signInAnonymously().catch(error => {
