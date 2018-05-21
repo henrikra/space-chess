@@ -117,24 +117,33 @@ class GameRoom extends React.Component<Props, State> {
   };
 
   public render() {
+    const {
+      error,
+      isGameFull,
+      isLoading,
+      pieces,
+      role,
+      isWhiteTurn
+    } = this.state;
+
     return (
       <div>
         <h1>RoomId: {this.props.match.params.roomId}</h1>
-        {!this.state.isGameFull &&
-          this.state.role === "spectator" && (
+        {!isGameFull &&
+          role === "spectator" && (
             <button onClick={this.joinGame}>Join the game</button>
           )}
-        {this.state.isLoading && <p>Loading game room</p>}
-        {this.state.error && <p className="error">{this.state.error}</p>}
-        {this.state.pieces && (
+        {isLoading && <p>Loading game room</p>}
+        {error && <p className="error">{error}</p>}
+        {pieces && (
           <>
-            {this.state.isGameFull && (
-              <p>{this.state.isWhiteTurn ? "White's turn" : "Black's turn"}</p>
+            {isGameFull && (
+              <p>{isWhiteTurn ? "White's turn" : "Black's turn"}</p>
             )}
-            {this.state.role === "white" && <p>You are white</p>}
-            {this.state.role === "black" && <p>You are black</p>}
+            {role === "white" && <p>You are white</p>}
+            {role === "black" && <p>You are black</p>}
             <Board
-              pieces={this.state.pieces}
+              pieces={pieces}
               roomId={this.props.match.params.roomId}
               userId={this.props.userId}
             />
