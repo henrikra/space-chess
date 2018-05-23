@@ -1,4 +1,5 @@
 import { Unsubscribe } from "firebase";
+import * as classNames from "classnames";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 
@@ -138,7 +139,15 @@ class GameRoom extends React.Component<Props, State> {
         {pieces && (
           <>
             {isGameFull && (
-              <p>{isWhiteTurn ? "White's turn" : "Black's turn"}</p>
+              <p
+                className={classNames({
+                  "whos-turn--active":
+                    (isWhiteTurn && role === "white") ||
+                    (!isWhiteTurn && role === "black")
+                })}
+              >
+                {isWhiteTurn ? "White's turn" : "Black's turn"}
+              </p>
             )}
             {role === "white" && <p>You are white</p>}
             {role === "black" && <p>You are black</p>}
