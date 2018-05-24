@@ -14,6 +14,7 @@ interface Props {
   pieces: PieceOnBoard[];
   roomId: string;
   userId?: string;
+  isYourTurn: boolean;
 }
 
 const playSound = (() => {
@@ -35,12 +36,11 @@ class Board extends React.Component<Props, State> {
         (piece, index) =>
           !!prevProps.pieces && prevProps.pieces[index] === piece
       );
-    if (prevProps.pieces && hasPiecesChanged) {
+    if (prevProps.pieces && hasPiecesChanged && this.props.isYourTurn) {
       playSound();
     }
   }
 
-  // todo onko järkee näissä public tms
   public isDark = (index: number) => {
     const isEvenRow = Math.floor(index / 8) % 2 === 0;
     const isEvenFile = index % 2 === 0;

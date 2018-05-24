@@ -142,6 +142,8 @@ class GameRoom extends React.Component<Props, State> {
       role,
       isWhiteTurn
     } = this.state;
+    const isYourTurn =
+      (isWhiteTurn && role === "white") || (!isWhiteTurn && role === "black");
 
     return (
       <div>
@@ -157,9 +159,7 @@ class GameRoom extends React.Component<Props, State> {
             {isGameFull && (
               <p
                 className={classNames({
-                  "whos-turn--active":
-                    (isWhiteTurn && role === "white") ||
-                    (!isWhiteTurn && role === "black")
+                  "whos-turn--active": isYourTurn
                 })}
               >
                 {isWhiteTurn ? "White's turn" : "Black's turn"}
@@ -171,6 +171,7 @@ class GameRoom extends React.Component<Props, State> {
               pieces={pieces}
               roomId={this.props.match.params.roomId}
               userId={this.props.userId}
+              isYourTurn={isYourTurn}
             />
             {this.state.moves && (
               <ol>
