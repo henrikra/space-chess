@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Move } from "./backendCommon/common";
+import "./MoveListItem.css";
 
 interface Props {
   move: Move;
@@ -15,7 +16,8 @@ class MoveListItem extends React.Component<Props> {
   public render() {
     const { move } = this.props;
     return (
-      <li onClick={this.onClick}>
+      <li className="move-list__item" onClick={this.onClick}>
+        {this.props.index + 1}.
         {move.from.file}
         {move.from.rank}-{move.to.file}
         {move.to.rank}
