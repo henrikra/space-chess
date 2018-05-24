@@ -150,6 +150,7 @@ class GameRoom extends React.Component<Props, State> {
     } = this.state;
     const isYourTurn =
       (isWhiteTurn && role === "white") || (!isWhiteTurn && role === "black");
+    const isPlaying = role === "white" || role === "black";
 
     return (
       <div>
@@ -173,13 +174,13 @@ class GameRoom extends React.Component<Props, State> {
             )}
             {role === "white" && <p>You are white</p>}
             {role === "black" && <p>You are black</p>}
-            <button onClick={this.confirmSurrender}>Surrender</button>
+            {isPlaying && <button onClick={this.confirmSurrender}>Surrender</button>}
             <Board
               pieces={pieces}
               roomId={this.props.match.params.roomId}
               userId={this.props.userId}
               isYourTurn={isYourTurn}
-              isPlaying={role === "white" || role === "black"}
+              isPlaying={isPlaying}
             />
             {this.state.moves && (
               <ol>
