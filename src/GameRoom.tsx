@@ -133,6 +133,12 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
+  public confirmSurrender = () => {
+    if (confirm('Are you sure you want to surrender?')) {
+      console.log('luovutit')
+    }
+  }
+
   public render() {
     const {
       error,
@@ -167,11 +173,13 @@ class GameRoom extends React.Component<Props, State> {
             )}
             {role === "white" && <p>You are white</p>}
             {role === "black" && <p>You are black</p>}
+            <button onClick={this.confirmSurrender}>Surrender</button>
             <Board
               pieces={pieces}
               roomId={this.props.match.params.roomId}
               userId={this.props.userId}
               isYourTurn={isYourTurn}
+              isPlaying={role === "white" || role === "black"}
             />
             {this.state.moves && (
               <ol>

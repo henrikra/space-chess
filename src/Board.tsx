@@ -17,6 +17,7 @@ interface Props {
   roomId: string;
   userId?: string;
   isYourTurn: boolean;
+  isPlaying: boolean;
 }
 
 const playSound = (() => {
@@ -90,6 +91,10 @@ class Board extends React.Component<Props, State> {
   };
 
   public selectSquare = (index: number) => {
+    if (!this.props.isPlaying) {
+      return;
+    }
+
     if (this.state.activeIndex === index) {
       this.setState({ activeIndex: undefined });
     } else if (
@@ -126,7 +131,8 @@ class Board extends React.Component<Props, State> {
     return (
       <div
         className={classNames("board", {
-          "board--loading": this.state.isLoading
+          "board--loading": this.state.isLoading,
+          "board--playing": this.props.isPlaying
         })}
       >
         {Array.from({ length: 64 })
@@ -138,6 +144,7 @@ class Board extends React.Component<Props, State> {
               onPress={this.selectSquare}
               isDark={this.isDark(index)}
               isActive={this.state.activeIndex === index}
+              isPlaying={this.props.isPlaying}
             />
           ))}
         {this.props.pieces.map((chessPiece, index) => (

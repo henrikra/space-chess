@@ -4,7 +4,7 @@
   transition: all 0.25s;
 }
 
-.board-square:hover {
+.board-square--playing:hover {
   background: #ccc;
 }
 

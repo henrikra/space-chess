@@ -5,6 +5,9 @@
   --active-color: red;
   width: 480px;
   margin: 0 auto;
+}
+
+.board--playing {
   cursor: pointer; 
 }
 
