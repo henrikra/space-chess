@@ -2,6 +2,7 @@
 export interface Move {
   from: Square;
   to: Square;
+  hasCaptureHappened: boolean;
 }
 
 export enum ChessPiece {

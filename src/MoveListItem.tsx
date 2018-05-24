@@ -19,7 +19,7 @@ class MoveListItem extends React.Component<Props> {
       <li className="move-list__item" onClick={this.onClick}>
         {this.props.index + 1}.
         {move.from.file}
-        {move.from.rank}-{move.to.file}
+        {move.from.rank}{move.hasCaptureHappened ? 'x' : '-'}{move.to.file}
         {move.to.rank}
       </li>
     );
