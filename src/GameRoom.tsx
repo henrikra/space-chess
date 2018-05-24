@@ -27,6 +27,7 @@ interface State {
   error?: string;
   moves?: Move[];
   surrenderColor?: string;
+  historyIndex?: number;
 }
 
 interface Props
@@ -77,6 +78,10 @@ class GameRoom extends React.Component<Props, State> {
             moves: game.moves,
             surrenderColor: game.surrenderColor
           });
+          if (!!game.surrenderColor) {
+            this.setPieceHistory(game.moves.length - 1);
+            document.addEventListener("keydown", this.navigateInHistory);
+          }
         } else {
           this.setState({
             isLoading: false,
@@ -93,7 +98,35 @@ class GameRoom extends React.Component<Props, State> {
 
   public componentWillUnmount() {
     this.roomListenerUnsubscribe();
+    document.removeEventListener("keydown", this.navigateInHistory);
   }
+
+  public navigateInHistory = (event: KeyboardEvent) => {
+    if (event.code === "ArrowLeft") {
+      if (typeof this.state.historyIndex === "undefined") {
+        if (this.state.moves) {
+          this.setPieceHistory(this.state.moves.length - 1);
+        }
+      } else {
+        const newValue =
+          this.state.historyIndex === 0
+            ? undefined
+            : this.state.historyIndex - 1;
+        this.setPieceHistory(newValue);
+      }
+    } else if (event.code === "ArrowRight") {
+      if (typeof this.state.historyIndex === "undefined") {
+        this.setPieceHistory(0);
+      } else {
+        const newValue =
+          this.state.moves &&
+          this.state.historyIndex === this.state.moves.length - 1
+            ? undefined
+            : this.state.historyIndex + 1;
+        this.setPieceHistory(newValue);
+      }
+    }
+  };
 
   public checkMyRole = async (userId?: string) => {
     if (userId) {
@@ -123,10 +156,18 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
-  public setPieceHistory = (index: number) => {
-    if (this.state.moves) {
+  public setPieceHistory = (index?: number) => {
+    if (typeof index === "number" && this.state.moves) {
       const newMoves = this.state.moves.slice(0, index + 1);
-      this.setState({ pieces: this.calculatePiecesFromMoves(newMoves) });
+      this.setState({
+        pieces: this.calculatePiecesFromMoves(newMoves),
+        historyIndex: index
+      });
+    } else {
+      this.setState({
+        historyIndex: undefined,
+        pieces: this.calculatePiecesFromMoves([])
+      });
     }
   };
 
@@ -204,6 +245,7 @@ class GameRoom extends React.Component<Props, State> {
                       index={index}
                       move={move}
                       onClick={this.setPieceHistory}
+                      isActive={index === this.state.historyIndex}
                     />
                   ))}
                 </ol>

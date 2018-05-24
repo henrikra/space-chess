@@ -3,4 +3,9 @@
   margin-right: 15px;
   width: 70px;
   cursor: pointer;
+  text-align: center;
+}
+
+.move-list__item--active {
+  background: rgba(255, 0, 0, 0.5);
 }
