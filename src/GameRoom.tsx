@@ -29,6 +29,7 @@ interface State {
   role: Role;
   isLoading: boolean;
   error?: string;
+  moves?: Move[];
 }
 
 interface Props
@@ -73,7 +74,8 @@ class GameRoom extends React.Component<Props, State> {
             isGameFull: game.isGameFull,
             isWhiteTurn: game.moves.length % 2 === 0,
             pieces: this.calculatePiecesFromMoves(game.moves),
-            isLoading: false
+            isLoading: false,
+            moves: game.moves
           });
         } else {
           this.setState({
@@ -156,6 +158,17 @@ class GameRoom extends React.Component<Props, State> {
               roomId={this.props.match.params.roomId}
               userId={this.props.userId}
             />
+            {this.state.moves && (
+              <ol>
+                {this.state.moves.map((move, index) => (
+                  <li key={index}>
+                    {move.from.file}
+                    {move.from.rank}-{move.to.file}
+                    {move.to.rank}
+                  </li>
+                ))}
+              </ol>
+            )}
           </>
         )}
       </div>
