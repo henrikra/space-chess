@@ -10,6 +10,7 @@ import Board from "./Board";
 import { firestore } from "./firebase";
 import "./GameRoom.css";
 import { Consumer, UserContextProps } from "./userContext";
+import MoveListItem from "./MoveListItem";
 
 interface RoomResponse {
   isGameFull: boolean;
@@ -119,6 +120,13 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
+  public setPieceHistory = (index: number) => {
+    if (this.state.moves) {
+      const newMoves = this.state.moves.slice(0, index + 1);
+      this.setState({ pieces: this.calculatePiecesFromMoves(newMoves) });
+    }
+  };
+
   public render() {
     const {
       error,
@@ -161,11 +169,12 @@ class GameRoom extends React.Component<Props, State> {
             {this.state.moves && (
               <ol>
                 {this.state.moves.map((move, index) => (
-                  <li key={index}>
-                    {move.from.file}
-                    {move.from.rank}-{move.to.file}
-                    {move.to.rank}
-                  </li>
+                  <MoveListItem
+                    key={index}
+                    index={index}
+                    move={move}
+                    onClick={this.setPieceHistory}
+                  />
                 ))}
               </ol>
             )}
