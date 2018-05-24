@@ -5,4 +5,9 @@
   --active-color: red;
   width: 480px;
   margin: 0 auto;
+  cursor: pointer; 
+}
+
+.board--loading {
+  cursor: wait;
 }

@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as classNames from "classnames";
 
 import BoardSquare from "./BoardSquare";
 import BoardPiece from "./BoardPiece";
@@ -8,6 +9,7 @@ import "./Board.css";
 
 interface State {
   activeIndex?: number;
+  isLoading: boolean;
 }
 
 interface Props {
@@ -27,7 +29,7 @@ const playSound = (() => {
 })();
 
 class Board extends React.Component<Props, State> {
-  public state: State = {};
+  public state: State = { isLoading: false };
 
   public componentDidUpdate(prevProps: Props) {
     const hasPiecesChanged =
@@ -94,6 +96,7 @@ class Board extends React.Component<Props, State> {
       typeof this.state.activeIndex === "number" &&
       this.props.userId
     ) {
+      this.setState({ isLoading: true });
       api
         .movePiece(
           this.props.roomId,
@@ -108,10 +111,10 @@ class Board extends React.Component<Props, State> {
           }
         )
         .then(() => {
-          this.setState({ activeIndex: undefined });
+          this.setState({ activeIndex: undefined, isLoading: false });
         })
         .catch(error => {
-          this.setState({ activeIndex: undefined });
+          this.setState({ activeIndex: undefined, isLoading: false });
           alert(error.response.data.error);
         });
     } else {
@@ -121,7 +124,11 @@ class Board extends React.Component<Props, State> {
 
   public render() {
     return (
-      <div className="board">
+      <div
+        className={classNames("board", {
+          "board--loading": this.state.isLoading
+        })}
+      >
         {Array.from({ length: 64 })
           .map((_, i) => i)
           .map(index => (

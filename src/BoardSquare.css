@@ -1,5 +1,4 @@
 .board-square {
-  cursor: pointer;
   height: var(--piece-side);
   background: #80ac51;
   transition: all 0.25s;
