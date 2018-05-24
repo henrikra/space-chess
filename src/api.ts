@@ -25,6 +25,8 @@ const api = {
   movePiece: (roomId: string, userId: string, from: Square, to: Square) =>
     agent.post("movePiece", { from, to, roomId, userId }),
   whoAmI: ({ roomId, userId }: { roomId: string; userId: string }) =>
-    agent.get<WhoAmIResponse>("roomInfo", { params: { roomId, userId } })
+    agent.get<WhoAmIResponse>("roomInfo", { params: { roomId, userId } }),
+  surrender: ({ roomId, userId }: { roomId: string; userId: string }) =>
+    agent.post("surrender", { roomId, userId })
 };
 export default api;

@@ -4,18 +4,13 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router";
 
 import api, { Role } from "./api";
-import { ChessPiece, Move, Square } from "./backendCommon/common";
+import { ChessPiece, Move, Square, RoomModel } from "./backendCommon/common";
 import { initialPieces } from "./utils";
 import Board from "./Board";
 import { firestore } from "./firebase";
 import "./GameRoom.css";
 import { Consumer, UserContextProps } from "./userContext";
 import MoveListItem from "./MoveListItem";
-
-interface RoomResponse {
-  isGameFull: boolean;
-  moves: Move[];
-}
 
 export interface PieceOnBoard {
   value: ChessPiece;
@@ -31,6 +26,7 @@ interface State {
   isLoading: boolean;
   error?: string;
   moves?: Move[];
+  surrenderColor?: string;
 }
 
 interface Props
@@ -71,14 +67,15 @@ class GameRoom extends React.Component<Props, State> {
       .collection("rooms")
       .doc(this.props.match.params.roomId)
       .onSnapshot(doc => {
-        const game = doc.data() as RoomResponse | undefined;
+        const game = doc.data() as RoomModel | undefined;
         if (game) {
           this.setState({
             isGameFull: game.isGameFull,
             isWhiteTurn: game.moves.length % 2 === 0,
             pieces: this.calculatePiecesFromMoves(game.moves),
             isLoading: false,
-            moves: game.moves
+            moves: game.moves,
+            surrenderColor: game.surrenderColor
           });
         } else {
           this.setState({
@@ -134,10 +131,13 @@ class GameRoom extends React.Component<Props, State> {
   };
 
   public confirmSurrender = () => {
-    if (confirm('Are you sure you want to surrender?')) {
-      console.log('luovutit')
+    if (this.props.userId && confirm("Are you sure you want to surrender?")) {
+      api.surrender({
+        roomId: this.props.match.params.roomId,
+        userId: this.props.userId
+      });
     }
-  }
+  };
 
   public render() {
     const {
@@ -151,6 +151,7 @@ class GameRoom extends React.Component<Props, State> {
     const isYourTurn =
       (isWhiteTurn && role === "white") || (!isWhiteTurn && role === "black");
     const isPlaying = role === "white" || role === "black";
+    const isGameOver = !!this.state.surrenderColor;
 
     return (
       <div>
@@ -163,18 +164,30 @@ class GameRoom extends React.Component<Props, State> {
         {error && <p className="error">{error}</p>}
         {pieces && (
           <>
-            {isGameFull && (
-              <p
-                className={classNames({
-                  "whos-turn--active": isYourTurn
-                })}
-              >
-                {isWhiteTurn ? "White's turn" : "Black's turn"}
-              </p>
-            )}
+            {isGameFull &&
+              !isGameOver && (
+                <p
+                  className={classNames({
+                    "whos-turn--active": isYourTurn
+                  })}
+                >
+                  {isWhiteTurn ? "White's turn" : "Black's turn"}
+                </p>
+              )}
             {role === "white" && <p>You are white</p>}
             {role === "black" && <p>You are black</p>}
-            {isPlaying && <button onClick={this.confirmSurrender}>Surrender</button>}
+            {isPlaying &&
+              isGameFull &&
+              !isGameOver && (
+                <button onClick={this.confirmSurrender}>Surrender</button>
+              )}
+            {isGameOver && (
+              <p>
+                Game over!{" "}
+                {this.state.surrenderColor === "white" ? "White" : "Black"} won
+                the game
+              </p>
+            )}
             <Board
               pieces={pieces}
               roomId={this.props.match.params.roomId}
@@ -182,18 +195,19 @@ class GameRoom extends React.Component<Props, State> {
               isYourTurn={isYourTurn}
               isPlaying={isPlaying}
             />
-            {this.state.moves && (
-              <ol>
-                {this.state.moves.map((move, index) => (
-                  <MoveListItem
-                    key={index}
-                    index={index}
-                    move={move}
-                    onClick={this.setPieceHistory}
-                  />
-                ))}
-              </ol>
-            )}
+            {this.state.surrenderColor &&
+              this.state.moves && (
+                <ol>
+                  {this.state.moves.map((move, index) => (
+                    <MoveListItem
+                      key={index}
+                      index={index}
+                      move={move}
+                      onClick={this.setPieceHistory}
+                    />
+                  ))}
+                </ol>
+              )}
           </>
         )}
       </div>

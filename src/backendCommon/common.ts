@@ -26,4 +26,10 @@ export interface Square {
   rank: number;
 }
 
+export interface RoomModel {
+  isGameFull: boolean;
+  moves: Move[];
+  surrenderColor?: string;
+}
+
 // end! taken from backend project
