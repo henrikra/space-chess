@@ -65,6 +65,8 @@ class GameRoom extends React.Component<Props, State> {
   };
 
   public componentWillMount() {
+    this.checkMyRole(this.props.userId);
+
     this.roomListenerUnsubscribe = firestore
       .collection("rooms")
       .doc(this.props.match.params.roomId)
@@ -89,22 +91,26 @@ class GameRoom extends React.Component<Props, State> {
   }
 
   public async componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.userId) {
+    this.checkMyRole(nextProps.userId);
+  }
+
+  public componentWillUnmount() {
+    this.roomListenerUnsubscribe();
+  }
+
+  public checkMyRole = async (userId?: string) => {
+    if (userId) {
       try {
         const response = await api.whoAmI({
-          roomId: nextProps.match.params.roomId,
-          userId: nextProps.userId
+          roomId: this.props.match.params.roomId,
+          userId
         });
         this.setState({ role: response.data.role });
       } catch (error) {
         // ignore error
       }
     }
-  }
-
-  public componentWillUnmount() {
-    this.roomListenerUnsubscribe();
-  }
+  };
 
   public joinGame = async () => {
     if (this.props.userId) {
