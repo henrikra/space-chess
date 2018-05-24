@@ -3,6 +3,6 @@
 }
 
 .whos-turn--active {
-  color: green;
-  font-weight: bold;
+  background: green;
+  color: white;
 }
