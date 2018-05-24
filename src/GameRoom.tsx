@@ -225,7 +225,7 @@ class GameRoom extends React.Component<Props, State> {
             {isGameOver && (
               <p>
                 Game over!{" "}
-                {this.state.surrenderColor === "white" ? "White" : "Black"} won
+                {this.state.surrenderColor === "white" ? "Black" : "White"} won
                 the game
               </p>
             )}
