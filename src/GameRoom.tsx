@@ -28,6 +28,7 @@ interface State {
   moves?: Move[];
   surrenderColor?: string;
   historyIndex?: number;
+  isJoinGameLoading: boolean;
 }
 
 interface Props
@@ -40,7 +41,8 @@ class GameRoom extends React.Component<Props, State> {
     isGameFull: true,
     isWhiteTurn: true,
     role: "spectator",
-    isLoading: true
+    isLoading: true,
+    isJoinGameLoading: false
   };
 
   calculatePiecesFromMoves = (moves: Move[]) => {
@@ -147,13 +149,15 @@ class GameRoom extends React.Component<Props, State> {
 
   joinGame = async () => {
     if (this.props.userId) {
+      this.setState({ isJoinGameLoading: true });
       try {
         const response = await api.joinGame(
           this.props.match.params.roomId,
           this.props.userId
         );
-        this.setState({ role: response.data.role });
+        this.setState({ role: response.data.role, isJoinGameLoading: false });
       } catch (error) {
+        this.setState({ isJoinGameLoading: false });
         alert(error.response.data.error);
       }
     }
@@ -190,7 +194,8 @@ class GameRoom extends React.Component<Props, State> {
       isLoading,
       pieces,
       role,
-      isWhiteTurn
+      isWhiteTurn,
+      isJoinGameLoading
     } = this.state;
     const isYourTurn =
       (isWhiteTurn && role === "white") || (!isWhiteTurn && role === "black");
@@ -202,7 +207,9 @@ class GameRoom extends React.Component<Props, State> {
         <h1>RoomId: {this.props.match.params.roomId}</h1>
         {!isGameFull &&
           role === "spectator" && (
-            <button onClick={this.joinGame}>Join the game</button>
+            <button onClick={this.joinGame} disabled={isJoinGameLoading}>
+              {isJoinGameLoading ? "Joining" : "Join the game"}
+            </button>
           )}
         {isLoading && <p>Loading game room</p>}
         {error && <p className="error">{error}</p>}
