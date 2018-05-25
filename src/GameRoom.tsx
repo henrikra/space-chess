@@ -62,6 +62,7 @@ class GameRoom extends React.Component<Props, State> {
   };
 
   componentWillMount() {
+    document.addEventListener("keydown", this.navigateInHistory);
     this.checkMyRole(this.props.userId);
 
     this.roomListenerUnsubscribe = firestore
@@ -80,7 +81,6 @@ class GameRoom extends React.Component<Props, State> {
           });
           if (!!game.surrenderColor) {
             this.setPieceHistory(game.moves.length - 1);
-            document.addEventListener("keydown", this.navigateInHistory);
           }
         } else {
           this.setState({
@@ -102,6 +102,9 @@ class GameRoom extends React.Component<Props, State> {
   }
 
   navigateInHistory = (event: KeyboardEvent) => {
+    if (!this.state.surrenderColor) {
+      return;
+    }
     if (event.code === "ArrowLeft") {
       if (typeof this.state.historyIndex === "undefined") {
         if (this.state.moves) {
