@@ -29,6 +29,7 @@ interface State {
   surrenderColor?: string;
   historyIndex?: number;
   isJoinGameLoading: boolean;
+  isSurrenderLoading: boolean;
 }
 
 interface Props
@@ -42,7 +43,8 @@ class GameRoom extends React.Component<Props, State> {
     isWhiteTurn: true,
     role: "spectator",
     isLoading: true,
-    isJoinGameLoading: false
+    isJoinGameLoading: false,
+    isSurrenderLoading: false
   };
 
   calculatePiecesFromMoves = (moves: Move[]) => {
@@ -178,12 +180,18 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
-  confirmSurrender = () => {
+  confirmSurrender = async () => {
     if (this.props.userId && confirm("Are you sure you want to surrender?")) {
-      api.surrender({
-        roomId: this.props.match.params.roomId,
-        userId: this.props.userId
-      });
+      this.setState({ isSurrenderLoading: true });
+      try {
+        await api.surrender({
+          roomId: this.props.match.params.roomId,
+          userId: this.props.userId
+        });
+        this.setState({ isSurrenderLoading: false });
+      } catch (error) {
+        this.setState({ isSurrenderLoading: false });
+      }
     }
   };
 
@@ -195,7 +203,8 @@ class GameRoom extends React.Component<Props, State> {
       pieces,
       role,
       isWhiteTurn,
-      isJoinGameLoading
+      isJoinGameLoading,
+      isSurrenderLoading
     } = this.state;
     const isYourTurn =
       (isWhiteTurn && role === "white") || (!isWhiteTurn && role === "black");
@@ -230,7 +239,12 @@ class GameRoom extends React.Component<Props, State> {
             {isPlaying &&
               isGameFull &&
               !isGameOver && (
-                <button onClick={this.confirmSurrender}>Surrender</button>
+                <button
+                  onClick={this.confirmSurrender}
+                  disabled={isSurrenderLoading}
+                >
+                  {isSurrenderLoading ? "Surrendering" : "Surrender"}
+                </button>
               )}
             {isGameOver && (
               <p>
