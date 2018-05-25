@@ -11,6 +11,7 @@ import { firestore } from "./firebase";
 import "./GameRoom.css";
 import { Consumer, UserContextProps } from "./userContext";
 import MoveListItem from "./MoveListItem";
+import { Link } from "react-router-dom";
 
 export interface PieceOnBoard {
   value: ChessPiece;
@@ -213,6 +214,7 @@ class GameRoom extends React.Component<Props, State> {
 
     return (
       <div>
+        <Link to="/">Home</Link>
         <h1>RoomId: {this.props.match.params.roomId}</h1>
         {!isGameFull &&
           role === "spectator" && (
