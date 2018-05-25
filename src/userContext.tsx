@@ -14,10 +14,10 @@ export interface UserContextProps {
 }
 
 class Provider extends React.Component<{}, State> {
-  public authListenerUnsubscribe: Unsubscribe;
-  public state: State = {};
+  authListenerUnsubscribe: Unsubscribe;
+  state: State = {};
 
-  public componentWillMount() {
+  componentWillMount() {
     this.authListenerUnsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
         this.setState({ userId: user.uid });
@@ -31,11 +31,11 @@ class Provider extends React.Component<{}, State> {
     });
   }
 
-  public componentWillUnmount() {
+  componentWillUnmount() {
     this.authListenerUnsubscribe();
   }
 
-  public render() {
+  render() {
     return (
       <UserContext.Provider value={{ state: { userId: this.state.userId } }}>
         {this.props.children}

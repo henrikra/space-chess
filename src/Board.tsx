@@ -30,9 +30,9 @@ const playSound = (() => {
 })();
 
 class Board extends React.Component<Props, State> {
-  public state: State = { isLoading: false };
+  state: State = { isLoading: false };
 
-  public componentDidUpdate(prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     const hasPiecesChanged =
       this.props.pieces &&
       !this.props.pieces.every(
@@ -44,13 +44,13 @@ class Board extends React.Component<Props, State> {
     }
   }
 
-  public isDark = (index: number) => {
+  isDark = (index: number) => {
     const isEvenRow = Math.floor(index / 8) % 2 === 0;
     const isEvenFile = index % 2 === 0;
     return isEvenRow ? !isEvenFile : isEvenFile;
   };
 
-  public calculateRank = (index: number) => {
+  calculateRank = (index: number) => {
     if (index < 8) {
       return 8;
     } else if (index < 16) {
@@ -70,7 +70,7 @@ class Board extends React.Component<Props, State> {
     }
   };
 
-  public calculateFile = (index: number) => {
+  calculateFile = (index: number) => {
     if (index % 8 === 0) {
       return "a";
     } else if ((index - 1) % 8 === 0) {
@@ -90,7 +90,7 @@ class Board extends React.Component<Props, State> {
     }
   };
 
-  public selectSquare = (index: number) => {
+  selectSquare = (index: number) => {
     if (!this.props.isPlaying) {
       return;
     }
@@ -127,7 +127,7 @@ class Board extends React.Component<Props, State> {
     }
   };
 
-  public render() {
+  render() {
     return (
       <div
         className={classNames("board", {

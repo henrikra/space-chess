@@ -35,15 +35,15 @@ interface Props
     UserContextProps {}
 
 class GameRoom extends React.Component<Props, State> {
-  public roomListenerUnsubscribe: Unsubscribe;
-  public state: State = {
+  roomListenerUnsubscribe: Unsubscribe;
+  state: State = {
     isGameFull: true,
     isWhiteTurn: true,
     role: "spectator",
     isLoading: true
   };
 
-  public calculatePiecesFromMoves = (moves: Move[]) => {
+  calculatePiecesFromMoves = (moves: Move[]) => {
     return moves.reduce((pieces, move) => {
       return pieces
         .map(
@@ -61,7 +61,7 @@ class GameRoom extends React.Component<Props, State> {
     }, initialPieces);
   };
 
-  public componentWillMount() {
+  componentWillMount() {
     this.checkMyRole(this.props.userId);
 
     this.roomListenerUnsubscribe = firestore
@@ -92,16 +92,16 @@ class GameRoom extends React.Component<Props, State> {
       });
   }
 
-  public async componentWillReceiveProps(nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props) {
     this.checkMyRole(nextProps.userId);
   }
 
-  public componentWillUnmount() {
+  componentWillUnmount() {
     this.roomListenerUnsubscribe();
     document.removeEventListener("keydown", this.navigateInHistory);
   }
 
-  public navigateInHistory = (event: KeyboardEvent) => {
+  navigateInHistory = (event: KeyboardEvent) => {
     if (event.code === "ArrowLeft") {
       if (typeof this.state.historyIndex === "undefined") {
         if (this.state.moves) {
@@ -128,7 +128,7 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
-  public checkMyRole = async (userId?: string) => {
+  checkMyRole = async (userId?: string) => {
     if (userId) {
       try {
         const response = await api.whoAmI({
@@ -142,7 +142,7 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
-  public joinGame = async () => {
+  joinGame = async () => {
     if (this.props.userId) {
       try {
         const response = await api.joinGame(
@@ -156,7 +156,7 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
-  public setPieceHistory = (index?: number) => {
+  setPieceHistory = (index?: number) => {
     if (typeof index === "number" && this.state.moves) {
       const newMoves = this.state.moves.slice(0, index + 1);
       this.setState({
@@ -171,7 +171,7 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
-  public confirmSurrender = () => {
+  confirmSurrender = () => {
     if (this.props.userId && confirm("Are you sure you want to surrender?")) {
       api.surrender({
         roomId: this.props.match.params.roomId,
@@ -180,7 +180,7 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
-  public render() {
+  render() {
     const {
       error,
       isGameFull,

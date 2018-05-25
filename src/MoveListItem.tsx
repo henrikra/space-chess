@@ -11,11 +11,11 @@ interface Props {
 }
 
 class MoveListItem extends React.Component<Props> {
-  public onClick = () => {
+  onClick = () => {
     this.props.onClick(this.props.index);
   };
 
-  public render() {
+  render() {
     const { move } = this.props;
     return (
       <li

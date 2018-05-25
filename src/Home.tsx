@@ -11,11 +11,11 @@ interface State {
 interface Props extends RouteComponentProps<{}>, UserContextProps {}
 
 class Home extends React.Component<Props, State> {
-  public state: State = {
+  state: State = {
     isLoading: false
   };
 
-  public createNewGame = () => {
+  createNewGame = () => {
     if (this.props.userId) {
       this.setState({ isLoading: true });
       api
@@ -30,7 +30,7 @@ class Home extends React.Component<Props, State> {
     }
   };
 
-  public render() {
+  render() {
     return (
       <div className="App">
         <h1 className="App-title">Welcome to play Chess</h1>
