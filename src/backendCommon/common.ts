@@ -29,7 +29,7 @@ export interface Square {
 export interface RoomModel {
   isGameFull: boolean;
   moves: Move[];
-  surrenderColor?: string;
+  winnerColor?: string;
 }
 
 // end! taken from backend project

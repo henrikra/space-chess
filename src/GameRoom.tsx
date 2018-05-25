@@ -26,7 +26,7 @@ interface State {
   isLoading: boolean;
   error?: string;
   moves?: Move[];
-  surrenderColor?: string;
+  winnerColor?: string;
   historyIndex?: number;
   isJoinGameLoading: boolean;
   isSurrenderLoading: boolean;
@@ -81,9 +81,9 @@ class GameRoom extends React.Component<Props, State> {
             pieces: this.calculatePiecesFromMoves(game.moves),
             isLoading: false,
             moves: game.moves,
-            surrenderColor: game.surrenderColor
+            winnerColor: game.winnerColor
           });
-          if (!!game.surrenderColor) {
+          if (!!game.winnerColor) {
             this.setPieceHistory(game.moves.length - 1);
           }
         } else {
@@ -106,7 +106,7 @@ class GameRoom extends React.Component<Props, State> {
   }
 
   navigateInHistory = (event: KeyboardEvent) => {
-    if (!this.state.surrenderColor) {
+    if (!this.state.winnerColor) {
       return;
     }
     if (event.code === "ArrowLeft") {
@@ -209,7 +209,7 @@ class GameRoom extends React.Component<Props, State> {
     const isYourTurn =
       (isWhiteTurn && role === "white") || (!isWhiteTurn && role === "black");
     const isPlaying = role === "white" || role === "black";
-    const isGameOver = !!this.state.surrenderColor;
+    const isGameOver = !!this.state.winnerColor;
 
     return (
       <div>
@@ -249,8 +249,8 @@ class GameRoom extends React.Component<Props, State> {
             {isGameOver && (
               <p>
                 Game over!{" "}
-                {this.state.surrenderColor === "white" ? "Black" : "White"} won
-                the game
+                {this.state.winnerColor === "white" ? "White" : "Black"} won the
+                game
               </p>
             )}
             <Board
@@ -260,7 +260,7 @@ class GameRoom extends React.Component<Props, State> {
               isYourTurn={isYourTurn}
               isPlaying={isPlaying}
             />
-            {this.state.surrenderColor &&
+            {isGameOver &&
               this.state.moves && (
                 <ol>
                   {this.state.moves.map((move, index) => (
