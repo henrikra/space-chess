@@ -3,6 +3,7 @@ import { RouteComponentProps } from "react-router-dom";
 
 import api from "./api";
 import { Consumer, UserContextProps } from "./userContext";
+import './Home.css';
 
 interface State {
   isLoading: boolean;
@@ -32,16 +33,16 @@ class Home extends React.Component<Props, State> {
 
   render() {
     return (
-      <div className="App">
-        <h1 className="App-title">Welcome to play Chess</h1>
+      <>
+        <h1 className="title">Welcome to play Chess</h1>
         {this.props.userId ? (
-          <button onClick={this.createNewGame} disabled={this.state.isLoading}>
+          <button className="button" onClick={this.createNewGame} disabled={this.state.isLoading}>
             {this.state.isLoading ? "Loading" : "Create new game"}
           </button>
         ) : (
-          <p>Please wait...</p>
+          <p className="loading">Please wait...</p>
         )}
-      </div>
+      </>
     );
   }
 }
