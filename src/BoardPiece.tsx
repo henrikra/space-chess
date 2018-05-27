@@ -4,32 +4,35 @@ import * as React from "react";
 import { PieceOnBoard } from "./GameRoom";
 import "./BoardPiece.css";
 
+const createPieceImageUrl = (piece: string, color: string) =>
+  `https://png.icons8.com/material/75/${color}/${piece}.png`;
+
 const getChessPieceIcon = (chessPieceNumber: number) => {
   switch (chessPieceNumber) {
     case 1:
-      return "\u2659";
+      return createPieceImageUrl("pawn", "ffffff");
     case 2:
-      return "\u2656";
+      return createPieceImageUrl("rook", "ffffff");
     case 3:
-      return "\u2658";
+      return createPieceImageUrl("knight", "ffffff");
     case 4:
-      return "\u2657";
+      return createPieceImageUrl("bishop", "ffffff");
     case 5:
-      return "\u2655";
+      return createPieceImageUrl("queen", "ffffff");
     case 6:
-      return "\u2654";
+      return createPieceImageUrl("king", "ffffff");
     case 7:
-      return "\u265F";
+      return createPieceImageUrl("pawn", "000000");
     case 8:
-      return "\u265C";
+      return createPieceImageUrl("rook", "000000");
     case 9:
-      return "\u265E";
+      return createPieceImageUrl("knight", "000000");
     case 10:
-      return "\u265D";
+      return createPieceImageUrl("bishop", "000000");
     case 11:
-      return "\u265B";
+      return createPieceImageUrl("queen", "000000");
     case 12:
-      return "\u265A";
+      return createPieceImageUrl("king", "000000");
     default:
       return "";
   }
@@ -40,7 +43,8 @@ interface Props {
 }
 
 const BoardPiece: React.StatelessComponent<Props> = ({ chessPiece }) => (
-  <div
+  <img
+    src={getChessPieceIcon(chessPiece.value)}
     className={classNames(
       "board-piece",
       `${chessPiece.at.file}${chessPiece.at.rank}`,
@@ -48,9 +52,7 @@ const BoardPiece: React.StatelessComponent<Props> = ({ chessPiece }) => (
         "board-piece--captured": chessPiece.isCaptured
       }
     )}
-  >
-    {getChessPieceIcon(chessPiece.value)}
-  </div>
+  />
 );
 
 export default BoardPiece;

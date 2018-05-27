@@ -1,6 +1,6 @@
 .board-piece {
-  height: var(--piece-side);
-  width: var(--piece-side);
+  height: calc(var(--piece-side) - 10px);
+  width: calc(var(--piece-side) - 10px);
   font-size: 48px;
   position: absolute;
   pointer-events: none;
@@ -13,208 +13,208 @@
 }
 
 .a8 {
-  transform: translate(0px, 0px);
+  transform: translate(5px, 5px);
 }
 
 .b8 {
-  transform: translate(60px, 0px);
+  transform: translate(65px, 5px);
 }
 
 .c8 {
-  transform: translate(120px, 0px);
+  transform: translate(125px, 5px);
 }
 
 .d8 {
-  transform: translate(180px, 0px);
+  transform: translate(185px, 5px);
 }
 
 .e8 {
-  transform: translate(240px, 0px);
+  transform: translate(245px, 5px);
 }
 
 .f8 {
-  transform: translate(300px, 0px);
+  transform: translate(305px, 5px);
 }
 
 .g8 {
-  transform: translate(360px, 0px);
+  transform: translate(365px, 5px);
 }
 
 .h8 {
-  transform: translate(420px, 0px);
+  transform: translate(425px, 5px);
 }
 
 .a7 {
-  transform: translate(0px, 60px);
+  transform: translate(5px, 65px);
 }
 .b7 {
-  transform: translate(60px, 60px);
+  transform: translate(65px, 65px);
 }
 .c7 {
-  transform: translate(120px, 60px);
+  transform: translate(125px, 65px);
 }
 .d7 {
-  transform: translate(180px, 60px);
+  transform: translate(185px, 65px);
 }
 .e7 {
-  transform: translate(240px, 60px);
+  transform: translate(245px, 65px);
 }
 .f7 {
-  transform: translate(300px, 60px);
+  transform: translate(305px, 65px);
 }
 .g7 {
-  transform: translate(360px, 60px);
+  transform: translate(365px, 65px);
 }
 .h7 {
-  transform: translate(420px, 60px);
+  transform: translate(425px, 65px);
 }
 
 .a6 {
-  transform: translate(0px, 120px);
+  transform: translate(5px, 125px);
 }
 .b6 {
-  transform: translate(60px, 120px);
+  transform: translate(65px, 125px);
 }
 .c6 {
-  transform: translate(120px, 120px);
+  transform: translate(125px, 125px);
 }
 .d6 {
-  transform: translate(180px, 120px);
+  transform: translate(185px, 125px);
 }
 .e6 {
-  transform: translate(240px, 120px);
+  transform: translate(245px, 125px);
 }
 .f6 {
-  transform: translate(300px, 120px);
+  transform: translate(305px, 125px);
 }
 .g6 {
-  transform: translate(360px, 120px);
+  transform: translate(365px, 125px);
 }
 .h6 {
-  transform: translate(420px, 120px);
+  transform: translate(425px, 125px);
 }
 
 .a5 {
-  transform: translate(0px, 180px);
+  transform: translate(5px, 185px);
 }
 .b5 {
-  transform: translate(60px, 180px);
+  transform: translate(65px, 185px);
 }
 .c5 {
-  transform: translate(120px, 180px);
+  transform: translate(125px, 185px);
 }
 .d5 {
-  transform: translate(180px, 180px);
+  transform: translate(185px, 185px);
 }
 .e5 {
-  transform: translate(240px, 180px);
+  transform: translate(245px, 185px);
 }
 .f5 {
-  transform: translate(300px, 180px);
+  transform: translate(305px, 185px);
 }
 .g5 {
-  transform: translate(360px, 180px);
+  transform: translate(365px, 185px);
 }
 .h5 {
-  transform: translate(420px, 180px);
+  transform: translate(425px, 185px);
 }
 
 .a4 {
-  transform: translate(0px, 240px);
+  transform: translate(5px, 245px);
 }
 .b4 {
-  transform: translate(60px, 240px);
+  transform: translate(65px, 245px);
 }
 .c4 {
-  transform: translate(120px, 240px);
+  transform: translate(125px, 245px);
 }
 .d4 {
-  transform: translate(180px, 240px);
+  transform: translate(185px, 245px);
 }
 .e4 {
-  transform: translate(240px, 240px);
+  transform: translate(245px, 245px);
 }
 .f4 {
-  transform: translate(300px, 240px);
+  transform: translate(305px, 245px);
 }
 .g4 {
-  transform: translate(360px, 240px);
+  transform: translate(365px, 245px);
 }
 .h4 {
-  transform: translate(420px, 240px);
+  transform: translate(425px, 245px);
 }
 
 .a3 {
-  transform: translate(0px, 300px);
+  transform: translate(5px, 305px);
 }
 .b3 {
-  transform: translate(60px, 300px);
+  transform: translate(65px, 305px);
 }
 .c3 {
-  transform: translate(120px, 300px);
+  transform: translate(125px, 305px);
 }
 .d3 {
-  transform: translate(180px, 300px);
+  transform: translate(185px, 305px);
 }
 .e3 {
-  transform: translate(240px, 300px);
+  transform: translate(245px, 305px);
 }
 .f3 {
-  transform: translate(300px, 300px);
+  transform: translate(305px, 305px);
 }
 .g3 {
-  transform: translate(360px, 300px);
+  transform: translate(365px, 305px);
 }
 .h3 {
-  transform: translate(420px, 300px);
+  transform: translate(425px, 305px);
 }
 
 .a2 {
-  transform: translate(0px, 360px);
+  transform: translate(5px, 365px);
 }
 .b2 {
-  transform: translate(60px, 360px);
+  transform: translate(65px, 365px);
 }
 .c2 {
-  transform: translate(120px, 360px);
+  transform: translate(125px, 365px);
 }
 .d2 {
-  transform: translate(180px, 360px);
+  transform: translate(185px, 365px);
 }
 .e2 {
-  transform: translate(240px, 360px);
+  transform: translate(245px, 365px);
 }
 .f2 {
-  transform: translate(300px, 360px);
+  transform: translate(305px, 365px);
 }
 .g2 {
-  transform: translate(360px, 360px);
+  transform: translate(365px, 365px);
 }
 .h2 {
-  transform: translate(420px, 360px);
+  transform: translate(425px, 365px);
 }
 
 .a1 {
-  transform: translate(0px, 420px);
+  transform: translate(5px, 425px);
 }
 .b1 {
-  transform: translate(60px, 420px);
+  transform: translate(65px, 425px);
 }
 .c1 {
-  transform: translate(120px, 420px);
+  transform: translate(125px, 425px);
 }
 .d1 {
-  transform: translate(180px, 420px);
+  transform: translate(185px, 425px);
 }
 .e1 {
-  transform: translate(240px, 420px);
+  transform: translate(245px, 425px);
 }
 .f1 {
-  transform: translate(300px, 420px);
+  transform: translate(305px, 425px);
 }
 .g1 {
-  transform: translate(360px, 420px);
+  transform: translate(365px, 425px);
 }
 .h1 {
-  transform: translate(420px, 420px);
+  transform: translate(425px, 425px);
 }
