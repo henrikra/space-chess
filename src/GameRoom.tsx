@@ -233,10 +233,12 @@ class GameRoom extends React.Component<Props, State> {
             </button>
           )}
         {isLoading && (
-          <>
-            <img className="spinner__image" src={saturn} />
-            <p className="spinner__text">Loading game room</p>
-          </>
+          <div className="spinner">
+            <div className="spinner__container">
+              <img className="spinner__image" src={saturn} />
+              <p className="spinner__text">Loading game room</p>
+            </div>
+          </div>
         )}
         {error && <p className="error">{error}</p>}
         {pieces && (
