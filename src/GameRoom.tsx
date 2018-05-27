@@ -12,6 +12,7 @@ import "./GameRoom.css";
 import { Consumer, UserContextProps } from "./userContext";
 import MoveListItem from "./MoveListItem";
 import { Link } from "react-router-dom";
+import saturn from "./img/saturnus.svg";
 
 export interface PieceOnBoard {
   value: ChessPiece;
@@ -213,16 +214,29 @@ class GameRoom extends React.Component<Props, State> {
     const isGameOver = !!this.state.winnerColor;
 
     return (
-      <div>
-        <Link to="/">Home</Link>
-        <h1>RoomId: {this.props.match.params.roomId}</h1>
+      <div className="game-room">
+        <nav>
+          <Link to="/">Home</Link>
+        </nav>
+        {!isGameFull && (
+          <p>Invite your friend to this game by sending the link</p>
+        )}
         {!isGameFull &&
           role === "spectator" && (
-            <button onClick={this.joinGame} disabled={isJoinGameLoading}>
+            <button
+              className="button"
+              onClick={this.joinGame}
+              disabled={isJoinGameLoading}
+            >
               {isJoinGameLoading ? "Joining" : "Join the game"}
             </button>
           )}
-        {isLoading && <p>Loading game room</p>}
+        {isLoading && (
+          <>
+            <img className="spinner__image" src={saturn} />
+            <p className="spinner__text">Loading game room</p>
+          </>
+        )}
         {error && <p className="error">{error}</p>}
         {pieces && (
           <>
@@ -242,6 +256,7 @@ class GameRoom extends React.Component<Props, State> {
               isGameFull &&
               !isGameOver && (
                 <button
+                  className="button"
                   onClick={this.confirmSurrender}
                   disabled={isSurrenderLoading}
                 >

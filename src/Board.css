@@ -4,7 +4,8 @@
   grid-template-columns: repeat(8, var(--piece-side));
   --active-color: red;
   width: 480px;
-  margin: 0 auto;
+  margin: 20px auto 0;
+  color: #000000;
 }
 
 .board--playing {

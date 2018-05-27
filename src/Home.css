@@ -1,91 +1,13 @@
 .home {
-  text-align: center;
-  /* display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column; */
-  height: 100%;
+  padding-top: 20%;
 }
 
 .title {
   color: #ffffff;
   font-size: 58px;
-}
-
-.button {
-  background-color: rgba(255, 255, 255, 0.16);
-  border: 0;
-  color: #ffffff;
-  font-size: 32px;
-  padding: 15px 45px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.bottom-space {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  pointer-events: none;
-}
-
-.space-man {
-  position: absolute;
-  right: 10%;
-  top: 10%;
-  animation: floating 60s infinite;
-}
-
-.spaceship-container {
-  position: absolute;
-  left: 5%;
-  top: 5%;
-  animation: flying 15s linear infinite;
-}
-
-.spaceship__fire {
-  position: absolute;
-  bottom: 11px;
-  left: 9px;
-  transform: rotate(4deg);
-  animation: fire 0.2s linear infinite;
+  margin-top: 0;
 }
 
 .loading {
   color: #ffffff;
-}
-
-@keyframes floating {
-  from {
-    transform: rotate(20deg) translateY(0px) scale(1);
-  }
-  50% {
-    transform: rotate(-10deg) translateY(60px) scale(0.4);
-  }
-  to {
-    transform: rotate(20deg) translateY(0px) scale(1);
-  }
-}
-
-@keyframes flying {
-  0% {
-    transform: translate(-200px, 200px) rotate(-10deg);
-  }
-  20% {
-    transform:  translate(100px, -200px) rotate(-10deg);
-  }
-  100% {
-    transform:  translate(100px, -200px) rotate(-10deg);
-  }
-}
-
-@keyframes fire {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
 }

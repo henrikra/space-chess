@@ -12,7 +12,7 @@ import spaceshipFire from './img/raketin-liekki.svg';
 const App = () => (
   <Provider>
     <Router>
-      <div className="home">
+      <div className="main">
         <Route exact={true} path="/" component={Home} />
         <Route path="/room/:roomId" component={GameRoom} />
         <img className="bottom-space" src={lol} />

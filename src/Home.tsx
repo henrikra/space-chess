@@ -33,7 +33,7 @@ class Home extends React.Component<Props, State> {
 
   render() {
     return (
-      <>
+      <div className="home">
         <h1 className="title">Welcome to play Chess</h1>
         {this.props.userId ? (
           <button className="button" onClick={this.createNewGame} disabled={this.state.isLoading}>
@@ -42,7 +42,7 @@ class Home extends React.Component<Props, State> {
         ) : (
           <p className="loading">Please wait...</p>
         )}
-      </>
+      </div>
     );
   }
 }
