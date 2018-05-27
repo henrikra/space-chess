@@ -279,7 +279,7 @@ class GameRoom extends React.Component<Props, State> {
             />
             {isGameOver &&
               this.state.moves && (
-                <ol>
+                <ol className="moves-history">
                   {this.state.moves.map((move, index) => (
                     <MoveListItem
                       key={index}

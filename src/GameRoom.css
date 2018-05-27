@@ -1,6 +1,8 @@
 .game-room {
   color: #ffffff;
   padding-top: 20px;
+  max-width: 768px;
+  margin: 0 auto;
 }
 
 .error {
@@ -25,4 +27,8 @@
   0% {transform: scale(0.8)}
   50% {transform: scale(1)}
   100% {transform: scale(0.8)}
+}
+
+.moves-history {
+  padding: 0 10px;
 }
