@@ -1,11 +1,12 @@
 .move-list__item {
   display: inline-block;
-  margin-right: 15px;
-  width: 70px;
+  padding: 5px 10px;
+  width: 90px;
   cursor: pointer;
   text-align: center;
 }
 
 .move-list__item--active {
   background: rgba(255, 0, 0, 0.5);
+  border-radius: 5px;
 }
