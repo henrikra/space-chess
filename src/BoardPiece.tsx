@@ -4,7 +4,7 @@ import * as React from "react";
 import { PieceOnBoard } from "./GameRoom";
 import "./BoardPiece.css";
 
-const createPieceImageUrl = (piece: string, color: string) =>
+export const createPieceImageUrl = (piece: string, color: string) =>
   `https://png.icons8.com/material/75/${color}/${piece}.png`;
 
 const getChessPieceIcon = (chessPieceNumber: number) => {

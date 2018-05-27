@@ -10,8 +10,8 @@
 }
 
 .whos-turn--active {
-  background: green;
-  color: white;
+  /* background: green;
+  color: white; */
 }
 
 .spinner__image {
@@ -31,4 +31,41 @@
 
 .moves-history {
   padding: 0 10px;
+}
+
+.turn-switch {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.turn-switch__item {
+  opacity: 0.1;
+}
+
+.turn-switch__image {
+  display: block;
+  width: 55px;
+}
+
+.turn-switch__image--active {
+  opacity: 1;
+}
+
+.your-turn-text {
+  display: inline-block;
+  padding: 5px 0;
+  border-bottom: 2px solid #EB6853;
+  font-size: 20px;
+}
+
+.surrender-button {
+  background-color: rgba(255, 255, 255, 0.16);
+  border: 0;
+  color: #ffffff;
+  font-size: 18px;
+  padding: 10px 35px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
 }

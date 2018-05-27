@@ -13,6 +13,7 @@ import { Consumer, UserContextProps } from "./userContext";
 import MoveListItem from "./MoveListItem";
 import { Link } from "react-router-dom";
 import saturn from "./img/saturnus.svg";
+import { createPieceImageUrl } from "./BoardPiece";
 
 export interface PieceOnBoard {
   value: ChessPiece;
@@ -240,23 +241,11 @@ class GameRoom extends React.Component<Props, State> {
         {error && <p className="error">{error}</p>}
         {pieces && (
           <>
-            {isGameFull &&
-              !isGameOver && (
-                <p
-                  className={classNames({
-                    "whos-turn--active": isYourTurn
-                  })}
-                >
-                  {isWhiteTurn ? "White's turn" : "Black's turn"}
-                </p>
-              )}
-            {role === "white" && <p>You are white</p>}
-            {role === "black" && <p>You are black</p>}
             {isPlaying &&
               isGameFull &&
               !isGameOver && (
                 <button
-                  className="button"
+                  className="surrender-button"
                   onClick={this.confirmSurrender}
                   disabled={isSurrenderLoading}
                 >
@@ -277,6 +266,44 @@ class GameRoom extends React.Component<Props, State> {
               isYourTurn={isYourTurn}
               isPlaying={isPlaying}
             />
+            <h3>Who's turn</h3>
+            <div className="turn-switch">
+              <div
+                className={classNames("turn-switch__item", {
+                  "turn-switch__image--active": isWhiteTurn
+                })}
+              >
+                <img
+                  className="turn-switch__image"
+                  src={createPieceImageUrl("king", "ffffff")}
+                />
+                <span>White</span>
+              </div>
+              <div
+                className={classNames("turn-switch__item", {
+                  "turn-switch__image--active": !isWhiteTurn
+                })}
+              >
+                <img
+                  className="turn-switch__image"
+                  src={createPieceImageUrl("king", "000000")}
+                />
+                <span>Black</span>
+              </div>
+            </div>
+            {isYourTurn && <p className="your-turn-text">It is your turn!</p>}
+            {/* {role === "white" && <p>You are white</p>}
+            {role === "black" && <p>You are black</p>} */}
+            {/* {isGameFull &&
+              !isGameOver && (
+                <p
+                  className={classNames({
+                    "whos-turn--active": isYourTurn
+                  })}
+                >
+                  {isWhiteTurn ? "White's turn" : "Black's turn"}
+                </p>
+              )} */}
             {isGameOver &&
               this.state.moves && (
                 <ol className="moves-history">
