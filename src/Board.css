@@ -2,7 +2,7 @@
   --piece-side: 60px;
   display: grid;
   grid-template-columns: repeat(8, var(--piece-side));
-  --active-color: red;
+  --active-color: #eb6853;
   width: 480px;
   margin: 20px auto 0;
   color: #000000;

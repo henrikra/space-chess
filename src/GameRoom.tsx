@@ -217,7 +217,7 @@ class GameRoom extends React.Component<Props, State> {
     return (
       <div className="game-room">
         <nav>
-          <Link to="/">Home</Link>
+          <Link to="/">Back to lobby</Link>
         </nav>
         {!isGameFull && (
           <p>Invite your friend to this game by sending the link</p>
@@ -225,7 +225,7 @@ class GameRoom extends React.Component<Props, State> {
         {!isGameFull &&
           role === "spectator" && (
             <button
-              className="button"
+              className="surrender-button"
               onClick={this.joinGame}
               disabled={isJoinGameLoading}
             >
@@ -255,11 +255,21 @@ class GameRoom extends React.Component<Props, State> {
                 </button>
               )}
             {isGameOver && (
-              <p>
-                Game over!{" "}
-                {this.state.winnerColor === "white" ? "White" : "Black"} won the
-                game
-              </p>
+              <>
+                <div className="winner">
+                  <img
+                    className=""
+                    src={createPieceImageUrl(
+                      "king",
+                      this.state.winnerColor === "white" ? "ffffff" : "000000"
+                    )}
+                  />
+                </div>
+                <p className="your-turn-text">
+                  {this.state.winnerColor === "white" ? "White" : "Black"} won
+                  the game!
+                </p>
+              </>
             )}
             <Board
               pieces={pieces}
@@ -268,32 +278,39 @@ class GameRoom extends React.Component<Props, State> {
               isYourTurn={isYourTurn}
               isPlaying={isPlaying}
             />
-            <h3>Who's turn</h3>
-            <div className="turn-switch">
-              <div
-                className={classNames("turn-switch__item", {
-                  "turn-switch__image--active": isWhiteTurn
-                })}
-              >
-                <img
-                  className="turn-switch__image"
-                  src={createPieceImageUrl("king", "ffffff")}
-                />
-                <span>White</span>
-              </div>
-              <div
-                className={classNames("turn-switch__item", {
-                  "turn-switch__image--active": !isWhiteTurn
-                })}
-              >
-                <img
-                  className="turn-switch__image"
-                  src={createPieceImageUrl("king", "000000")}
-                />
-                <span>Black</span>
-              </div>
-            </div>
-            {isYourTurn && <p className="your-turn-text">It is your turn!</p>}
+            {isGameFull &&
+              !isGameOver && (
+                <>
+                  <h3>Who's turn</h3>
+                  <div className="turn-switch">
+                    <div
+                      className={classNames("turn-switch__item", {
+                        "turn-switch__image--active": isWhiteTurn
+                      })}
+                    >
+                      <img
+                        className="turn-switch__image"
+                        src={createPieceImageUrl("king", "ffffff")}
+                      />
+                      <span>White</span>
+                    </div>
+                    <div
+                      className={classNames("turn-switch__item", {
+                        "turn-switch__image--active": !isWhiteTurn
+                      })}
+                    >
+                      <img
+                        className="turn-switch__image"
+                        src={createPieceImageUrl("king", "000000")}
+                      />
+                      <span>Black</span>
+                    </div>
+                  </div>
+                  {isYourTurn && (
+                    <p className="your-turn-text">It is your turn!</p>
+                  )}
+                </>
+              )}
             {/* {role === "white" && <p>You are white</p>}
             {role === "black" && <p>You are black</p>} */}
             {/* {isGameFull &&

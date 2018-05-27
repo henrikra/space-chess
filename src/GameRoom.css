@@ -4,6 +4,16 @@
   max-width: 768px;
   margin: 0 auto;
   height: 100%;
+  text-align: center;
+}
+
+nav {
+  text-align: left;
+  padding: 15px;
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: 0;
 }
 
 .error {
@@ -46,7 +56,9 @@
 .turn-switch {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
+  width: 125px;
+  margin: 0 auto 20px;
 }
 
 .turn-switch__item {
@@ -64,9 +76,10 @@
 
 .your-turn-text {
   display: inline-block;
-  padding: 5px 0;
   border-bottom: 2px solid #eb6853;
   font-size: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .surrender-button {
@@ -78,4 +91,8 @@
   border-radius: 6px;
   cursor: pointer;
   margin-top: 10px;
+}
+
+.winner {
+  margin-top: 20px;
 }
