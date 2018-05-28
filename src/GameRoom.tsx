@@ -2,6 +2,7 @@ import { Unsubscribe } from "firebase";
 import * as classNames from "classnames";
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
 
 import api, { Role } from "./api";
 import { Move, RoomModel } from "./backendCommon/common";
@@ -11,7 +12,6 @@ import { firestore } from "./firebase";
 import "./GameRoom.css";
 import { Consumer, UserContextProps } from "./userContext";
 import MoveListItem from "./MoveListItem";
-import { Link } from "react-router-dom";
 import saturn from "./img/saturnus.svg";
 import { GlobalState, PieceOnBoard } from "./types";
 import Button from "./Button";
