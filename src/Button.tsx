@@ -1,11 +1,12 @@
 import * as React from "react";
 import * as classNames from "classnames";
 
-import './Button.css';
+import "./Button.css";
 
 interface Props {
   disabled?: boolean;
   size?: "normal" | "large";
+  className?: string;
   onClick(): void;
 }
 
@@ -13,10 +14,15 @@ const Button: React.StatelessComponent<Props> = ({
   children,
   disabled,
   onClick,
-  size
+  size,
+  className
 }) => (
   <button
-    className={classNames("button", { "button--large": size === "large" })}
+    className={classNames(
+      "button",
+      { "button--large": size === "large" },
+      className
+    )}
     onClick={onClick}
     disabled={disabled}
   >
@@ -26,7 +32,7 @@ const Button: React.StatelessComponent<Props> = ({
 
 Button.defaultProps = {
   size: "normal",
-  disabled: false,
+  disabled: false
 };
 
 export default Button;

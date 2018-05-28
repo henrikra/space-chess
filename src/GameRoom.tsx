@@ -197,18 +197,18 @@ class GameRoom extends React.Component<Props, State> {
           <Link to="/">Back to lobby</Link>
         </nav>
         {!isGameFull && (
-          <>
+          <div>
             <p>Invite your friend to this game by sending the link</p>
             <input
               className="invite-input"
               value={window.location.href}
               onFocus={this.selectAllText}
             />
-          </>
+          </div>
         )}
         {!isGameFull &&
           role === "spectator" && (
-            <Button onClick={this.joinGame} disabled={isJoinGameLoading}>
+            <Button className="join-game-button" onClick={this.joinGame} disabled={isJoinGameLoading}>
               {isJoinGameLoading ? "Joining" : "Join the game"}
             </Button>
           )}

@@ -94,3 +94,7 @@ nav {
   width: 100%;
   max-width: 300px;
 }
+
+.join-game-button {
+  margin-top: 20px;
+}
