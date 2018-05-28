@@ -2,7 +2,7 @@ import * as classNames from "classnames";
 import * as React from "react";
 
 import "./BoardPiece.css";
-import { PieceOnBoard } from "./types";
+import { PieceOnBoard } from "../types";
 import { getChessPieceIcon } from "./boardUtils";
 
 interface Props {

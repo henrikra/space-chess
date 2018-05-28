@@ -3,9 +3,9 @@ import * as classNames from "classnames";
 
 import BoardSquare from "./BoardSquare";
 import BoardPiece from "./BoardPiece";
-import api from "./api";
+import api from "../api";
 import "./Board.css";
-import { PieceOnBoard } from "./types";
+import { PieceOnBoard } from "../types";
 
 interface State {
   activeIndex?: number;
