@@ -3,13 +3,14 @@ import { RouteComponentProps } from "react-router-dom";
 
 import api from "./api";
 import { Consumer, UserContextProps } from "./userContext";
-import './Home.css';
+import "./Home.css";
+import Button from "./Button";
 
 interface State {
   isLoading: boolean;
 }
 
-interface Props extends RouteComponentProps<{}>, UserContextProps {}
+type Props = RouteComponentProps<{}> & UserContextProps;
 
 class Home extends React.Component<Props, State> {
   state: State = {
@@ -36,11 +37,11 @@ class Home extends React.Component<Props, State> {
       <div className="home">
         <h1 className="title">Welcome to play Chess</h1>
         {this.props.userId ? (
-          <button className="button" onClick={this.createNewGame} disabled={this.state.isLoading}>
+          <Button onClick={this.createNewGame} disabled={this.state.isLoading} size="large">
             {this.state.isLoading ? "Loading" : "Create new game"}
-          </button>
+          </Button>
         ) : (
-          <p className="loading">Please wait...</p>
+          <p>Please wait...</p>
         )}
       </div>
     );

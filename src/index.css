@@ -25,17 +25,3 @@ button {
 a {
   color: #ffffff;
 }
-
-.button {
-  background-color: rgba(255, 255, 255, 0.16);
-  border: 0;
-  color: #ffffff;
-  font-size: 32px;
-  padding: 15px 45px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.button:disabled {
-  cursor: default;
-}
