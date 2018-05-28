@@ -9,7 +9,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   background-image: linear-gradient(to bottom, #533362, #202039);
   height: 100%;
 }
@@ -19,7 +19,7 @@ body {
 }
 
 button {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
 }
 
 a {
@@ -38,6 +38,8 @@ a {
 
 .main {
   height: 100%;
+  background: url(http://www.script-tutorials.com/demos/360/images/stars.png)
+    repeat top center;
 }
 
 .bottom-space {
@@ -89,10 +91,10 @@ a {
     transform: translate(-200px, 200px) rotate(-10deg);
   }
   20% {
-    transform:  translate(100px, -200px) rotate(-10deg);
+    transform: translate(100px, -200px) rotate(-10deg);
   }
   100% {
-    transform:  translate(100px, -200px) rotate(-10deg);
+    transform: translate(100px, -200px) rotate(-10deg);
   }
 }
 

@@ -4,10 +4,10 @@ import { HashRouter as Router, Route } from "react-router-dom";
 import GameRoom from "./GameRoom";
 import Home from "./Home";
 import { Provider } from "./userContext";
-import lol from './img/ala-graffa.svg';
-import spaceMan from './img/astronaut.svg';
-import spaceship from './img/runko.svg';
-import spaceshipFire from './img/raketin-liekki.svg';
+import lol from "./img/ala-graffa.svg";
+import spaceMan from "./img/astronaut.svg";
+import spaceship from "./img/runko.svg";
+import spaceshipFire from "./img/raketin-liekki.svg";
 
 const App = () => (
   <Provider>
