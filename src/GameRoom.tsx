@@ -5,7 +5,7 @@ import { RouteComponentProps } from "react-router";
 
 import api, { Role } from "./api";
 import { Move, RoomModel } from "./backendCommon/common";
-import { calculatePiecesFromMoves } from "./utils";
+import { calculatePiecesFromMoves } from "./pieceUtils";
 import Board from "./Board";
 import { firestore } from "./firebase";
 import "./GameRoom.css";
