@@ -4,21 +4,22 @@ import { HashRouter as Router, Route } from "react-router-dom";
 import GameRoom from "./GameRoom";
 import Home from "./Home";
 import { Provider } from "./userContext";
-import lol from "./img/ala-graffa.svg";
-import spaceMan from "./img/astronaut.svg";
-import spaceship from "./img/runko.svg";
+import marsSurface from "./img/mars-surface.svg";
+import astronaut from "./img/astronautti.svg";
+import spaceship from "./img/raketti.svg";
 import spaceshipFire from "./img/raketin-liekki.svg";
+import "./App.css";
 
 const App = () => (
   <Provider>
     <Router>
-      <div className="main">
+      <div className="app">
         <Route exact={true} path="/" component={Home} />
         <Route path="/room/:roomId" component={GameRoom} />
-        <img className="bottom-space" src={lol} />
-        <img className="space-man" src={spaceMan} />
-        <div className="spaceship-container">
-          <img className="spaceship" src={spaceship} />
+        <img className="mars-surface" src={marsSurface} />
+        <img className="astronaut" src={astronaut} />
+        <div className="spaceship">
+          <img className="spaceship__body" src={spaceship} />
           <img className="spaceship__fire" src={spaceshipFire} />
         </div>
       </div>
