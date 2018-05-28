@@ -1,11 +1,11 @@
 {
-  "main.css": "static/css/main.c308f215.css",
-  "main.css.map": "static/css/main.c308f215.css.map",
-  "main.js": "static/js/main.cc9f20ab.js",
-  "main.js.map": "static/js/main.cc9f20ab.js.map",
-  "static/media/ala-graffa.svg": "static/media/ala-graffa.930e2070.svg",
-  "static/media/astronaut.svg": "static/media/astronaut.4c741477.svg",
+  "main.css": "static/css/main.9af8b9e8.css",
+  "main.css.map": "static/css/main.9af8b9e8.css.map",
+  "main.js": "static/js/main.1f55da62.js",
+  "main.js.map": "static/js/main.1f55da62.js.map",
+  "static/media/astronautti.svg": "static/media/astronautti.4c741477.svg",
+  "static/media/mars-surface.svg": "static/media/mars-surface.930e2070.svg",
   "static/media/raketin-liekki.svg": "static/media/raketin-liekki.81732e67.svg",
-  "static/media/runko.svg": "static/media/runko.ec4dacf4.svg",
+  "static/media/raketti.svg": "static/media/raketti.ec4dacf4.svg",
   "static/media/saturnus.svg": "static/media/saturnus.13a6a0df.svg"
 }
