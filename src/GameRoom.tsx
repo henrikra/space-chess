@@ -222,7 +222,7 @@ class GameRoom extends React.Component<Props, State> {
               )}
             {isGameOver && (
               <>
-                <div className="winner">
+                <div>
                   <img
                     src={createPieceImageUrl(
                       "king",
