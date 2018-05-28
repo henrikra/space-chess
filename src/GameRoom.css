@@ -77,7 +77,7 @@ nav {
 
 .highlighted-text {
   display: inline-block;
-  border-bottom: 2px solid #eb6853;
+  border-bottom: 2px solid var(--primary-color);
   font-size: 20px;
   margin-top: 0;
   margin-bottom: 0;

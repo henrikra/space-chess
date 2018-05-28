@@ -9,7 +9,7 @@
 }
 
 .board-square:hover.board-square--active {
-  background: var(--active-color);
+  background: var(--primary-color);
 }
 
 .board-square--dark {
@@ -17,5 +17,5 @@
 }
 
 .board-square--active {
-  background: var(--active-color);
+  background: var(--primary-color);
 }

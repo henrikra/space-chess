@@ -44,7 +44,7 @@ class Board extends React.Component<Props, State> {
     }
   }
 
-  isDark = (index: number) => {
+  isDarkSquare = (index: number) => {
     const isEvenRow = Math.floor(index / 8) % 2 === 0;
     const isEvenFile = index % 2 === 0;
     return isEvenRow ? !isEvenFile : isEvenFile;
@@ -142,7 +142,7 @@ class Board extends React.Component<Props, State> {
               key={index}
               index={index}
               onPress={this.selectSquare}
-              isDark={this.isDark(index)}
+              isDark={this.isDarkSquare(index)}
               isActive={this.state.activeIndex === index}
               isPlaying={this.props.isPlaying}
             />
