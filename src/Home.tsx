@@ -5,6 +5,7 @@ import api from "./api";
 import { Consumer, UserContextProps } from "./userContext";
 import "./Home.css";
 import Button from "./Button";
+import { GlobalState } from "./types";
 
 interface State {
   isLoading: boolean;

@@ -1,6 +1,25 @@
-import { ChessPiece } from "./backendCommon/common";
+import { ChessPiece, Move } from "./backendCommon/common";
 
-export const initialPieces = [
+export const calculatePiecesFromMoves = (moves: Move[]) =>
+  moves.reduce(
+    (pieces, move) =>
+      pieces
+        .map(
+          piece =>
+            piece.at.rank === move.to.rank && piece.at.file === move.to.file
+              ? { ...piece, isCaptured: true }
+              : piece
+        )
+        .map(
+          piece =>
+            piece.at.rank === move.from.rank && piece.at.file === move.from.file
+              ? { ...piece, at: { file: move.to.file, rank: move.to.rank } }
+              : piece
+        ),
+    initialPieces
+  );
+
+const initialPieces = [
   {
     at: { file: "a", rank: 8 },
     isCaptured: false,

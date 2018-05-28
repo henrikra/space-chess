@@ -1,6 +1,6 @@
 .game-room {
   color: #ffffff;
-  padding-top: 20px;
+  padding-top: 50px;
   max-width: 768px;
   margin: 0 auto;
   height: 100%;
@@ -26,6 +26,7 @@ nav {
   justify-content: center;
   align-items: center;
   transform: translateY(-50px);
+  flex-direction: column;
 }
 
 .spinner__image {
@@ -70,27 +71,16 @@ nav {
   width: 55px;
 }
 
-.turn-switch__image--active {
+.turn-switch__item--active {
   opacity: 1;
 }
 
-.your-turn-text {
+.highlighted-text {
   display: inline-block;
   border-bottom: 2px solid #eb6853;
   font-size: 20px;
   margin-top: 0;
   margin-bottom: 0;
-}
-
-.surrender-button {
-  background-color: rgba(255, 255, 255, 0.16);
-  border: 0;
-  color: #ffffff;
-  font-size: 18px;
-  padding: 10px 35px;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 10px;
 }
 
 .winner {

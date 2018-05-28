@@ -4,8 +4,8 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router";
 
 import api, { Role } from "./api";
-import { ChessPiece, Move, Square, RoomModel } from "./backendCommon/common";
-import { initialPieces } from "./utils";
+import { Move, RoomModel } from "./backendCommon/common";
+import { calculatePiecesFromMoves } from "./utils";
 import Board from "./Board";
 import { firestore } from "./firebase";
 import "./GameRoom.css";
@@ -13,20 +13,16 @@ import { Consumer, UserContextProps } from "./userContext";
 import MoveListItem from "./MoveListItem";
 import { Link } from "react-router-dom";
 import saturn from "./img/saturnus.svg";
-import { createPieceImageUrl } from "./BoardPiece";
-
-export interface PieceOnBoard {
-  value: ChessPiece;
-  at: Square;
-  isCaptured: boolean;
-}
+import { GlobalState, PieceOnBoard } from "./types";
+import Button from "./Button";
+import { createPieceImageUrl } from "./boardUtils";
 
 interface State {
   isWhiteTurn: boolean;
   pieces?: PieceOnBoard[];
   isGameFull: boolean;
   role: Role;
-  isLoading: boolean;
+  isLoadingGame: boolean;
   error?: string;
   moves?: Move[];
   winnerColor?: string;
@@ -35,9 +31,7 @@ interface State {
   isSurrenderLoading: boolean;
 }
 
-interface Props
-  extends RouteComponentProps<{ roomId: string }>,
-    UserContextProps {}
+type Props = RouteComponentProps<{ roomId: string }> & UserContextProps;
 
 class GameRoom extends React.Component<Props, State> {
   roomListenerUnsubscribe: Unsubscribe;
@@ -45,27 +39,9 @@ class GameRoom extends React.Component<Props, State> {
     isGameFull: true,
     isWhiteTurn: true,
     role: "spectator",
-    isLoading: true,
+    isLoadingGame: true,
     isJoinGameLoading: false,
     isSurrenderLoading: false
-  };
-
-  calculatePiecesFromMoves = (moves: Move[]) => {
-    return moves.reduce((pieces, move) => {
-      return pieces
-        .map(
-          piece =>
-            piece.at.rank === move.to.rank && piece.at.file === move.to.file
-              ? { ...piece, isCaptured: true }
-              : piece
-        )
-        .map(
-          piece =>
-            piece.at.rank === move.from.rank && piece.at.file === move.from.file
-              ? { ...piece, at: { file: move.to.file, rank: move.to.rank } }
-              : piece
-        );
-    }, initialPieces);
   };
 
   componentWillMount() {
@@ -81,8 +57,8 @@ class GameRoom extends React.Component<Props, State> {
           this.setState({
             isGameFull: game.isGameFull,
             isWhiteTurn: game.moves.length % 2 === 0,
-            pieces: this.calculatePiecesFromMoves(game.moves),
-            isLoading: false,
+            pieces: calculatePiecesFromMoves(game.moves),
+            isLoadingGame: false,
             moves: game.moves,
             winnerColor: game.winnerColor
           });
@@ -91,7 +67,7 @@ class GameRoom extends React.Component<Props, State> {
           }
         } else {
           this.setState({
-            isLoading: false,
+            isLoadingGame: false,
             error: "This game does not exist",
             pieces: undefined
           });
@@ -109,31 +85,28 @@ class GameRoom extends React.Component<Props, State> {
   }
 
   navigateInHistory = (event: KeyboardEvent) => {
-    if (!this.state.winnerColor) {
+    if (!this.state.winnerColor || !this.state.moves) {
       return;
     }
     if (event.code === "ArrowLeft") {
       if (typeof this.state.historyIndex === "undefined") {
-        if (this.state.moves) {
-          this.setPieceHistory(this.state.moves.length - 1);
-        }
+        this.setPieceHistory(this.state.moves.length - 1);
       } else {
-        const newValue =
+        const newHistoryIndex =
           this.state.historyIndex === 0
             ? undefined
             : this.state.historyIndex - 1;
-        this.setPieceHistory(newValue);
+        this.setPieceHistory(newHistoryIndex);
       }
     } else if (event.code === "ArrowRight") {
       if (typeof this.state.historyIndex === "undefined") {
         this.setPieceHistory(0);
       } else {
-        const newValue =
-          this.state.moves &&
+        const newHistoryIndex =
           this.state.historyIndex === this.state.moves.length - 1
             ? undefined
             : this.state.historyIndex + 1;
-        this.setPieceHistory(newValue);
+        this.setPieceHistory(newHistoryIndex);
       }
     }
   };
@@ -172,13 +145,13 @@ class GameRoom extends React.Component<Props, State> {
     if (typeof index === "number" && this.state.moves) {
       const newMoves = this.state.moves.slice(0, index + 1);
       this.setState({
-        pieces: this.calculatePiecesFromMoves(newMoves),
-        historyIndex: index
+        historyIndex: index,
+        pieces: calculatePiecesFromMoves(newMoves)
       });
     } else {
       this.setState({
         historyIndex: undefined,
-        pieces: this.calculatePiecesFromMoves([])
+        pieces: calculatePiecesFromMoves([])
       });
     }
   };
@@ -202,7 +175,7 @@ class GameRoom extends React.Component<Props, State> {
     const {
       error,
       isGameFull,
-      isLoading,
+      isLoadingGame,
       pieces,
       role,
       isWhiteTurn,
@@ -224,20 +197,14 @@ class GameRoom extends React.Component<Props, State> {
         )}
         {!isGameFull &&
           role === "spectator" && (
-            <button
-              className="surrender-button"
-              onClick={this.joinGame}
-              disabled={isJoinGameLoading}
-            >
+            <Button onClick={this.joinGame} disabled={isJoinGameLoading}>
               {isJoinGameLoading ? "Joining" : "Join the game"}
-            </button>
+            </Button>
           )}
-        {isLoading && (
+        {isLoadingGame && (
           <div className="spinner">
-            <div className="spinner__container">
-              <img className="spinner__image" src={saturn} />
-              <p className="spinner__text">Loading game room</p>
-            </div>
+            <img className="spinner__image" src={saturn} />
+            <p className="spinner__text">Loading game room</p>
           </div>
         )}
         {error && <p className="error">{error}</p>}
@@ -246,26 +213,24 @@ class GameRoom extends React.Component<Props, State> {
             {isPlaying &&
               isGameFull &&
               !isGameOver && (
-                <button
-                  className="surrender-button"
+                <Button
                   onClick={this.confirmSurrender}
                   disabled={isSurrenderLoading}
                 >
                   {isSurrenderLoading ? "Surrendering" : "Surrender"}
-                </button>
+                </Button>
               )}
             {isGameOver && (
               <>
                 <div className="winner">
                   <img
-                    className=""
                     src={createPieceImageUrl(
                       "king",
                       this.state.winnerColor === "white" ? "ffffff" : "000000"
                     )}
                   />
                 </div>
-                <p className="your-turn-text">
+                <p className="highlighted-text">
                   {this.state.winnerColor === "white" ? "White" : "Black"} won
                   the game!
                 </p>
@@ -285,7 +250,7 @@ class GameRoom extends React.Component<Props, State> {
                   <div className="turn-switch">
                     <div
                       className={classNames("turn-switch__item", {
-                        "turn-switch__image--active": isWhiteTurn
+                        "turn-switch__item--active": isWhiteTurn
                       })}
                     >
                       <img
@@ -296,7 +261,7 @@ class GameRoom extends React.Component<Props, State> {
                     </div>
                     <div
                       className={classNames("turn-switch__item", {
-                        "turn-switch__image--active": !isWhiteTurn
+                        "turn-switch__item--active": !isWhiteTurn
                       })}
                     >
                       <img
@@ -307,22 +272,10 @@ class GameRoom extends React.Component<Props, State> {
                     </div>
                   </div>
                   {isYourTurn && (
-                    <p className="your-turn-text">It is your turn!</p>
+                    <p className="highlighted-text">It is your turn!</p>
                   )}
                 </>
               )}
-            {/* {role === "white" && <p>You are white</p>}
-            {role === "black" && <p>You are black</p>} */}
-            {/* {isGameFull &&
-              !isGameOver && (
-                <p
-                  className={classNames({
-                    "whos-turn--active": isYourTurn
-                  })}
-                >
-                  {isWhiteTurn ? "White's turn" : "Black's turn"}
-                </p>
-              )} */}
             {isGameOver &&
               this.state.moves && (
                 <ol className="moves-history">
