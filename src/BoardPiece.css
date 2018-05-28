@@ -1,11 +1,11 @@
 .board-piece {
-  height: calc(var(--piece-side) - 10px);
-  width: calc(var(--piece-side) - 10px);
-  font-size: 48px;
+  --padding: 10px;
+  --piece-side: calc(var(--square-side) - var(--padding));
+  height: var(--piece-side);
+  width: var(--piece-side);
   position: absolute;
   pointer-events: none;
   transition: transform 1s, opacity 0.5s;
-  text-align: center;
 }
 
 .board-piece--captured {

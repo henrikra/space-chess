@@ -1,10 +1,9 @@
 .board {
-  --piece-side: 60px;
+  --square-side: 60px;
   display: grid;
-  grid-template-columns: repeat(8, var(--piece-side));
+  grid-template-columns: repeat(8, var(--square-side));
   width: 480px;
   margin: 20px auto 0;
-  color: #000000;
 }
 
 .board--playing {

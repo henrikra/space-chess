@@ -1,5 +1,5 @@
 .board-square {
-  height: var(--piece-side);
+  height: var(--square-side);
   background-color: rgba(255, 255, 255, 0.35);
   transition: all 0.25s;
 }
