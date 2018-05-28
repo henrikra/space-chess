@@ -171,6 +171,10 @@ class GameRoom extends React.Component<Props, State> {
     }
   };
 
+  selectAllText: React.FocusEventHandler<HTMLInputElement> = event => {
+    event.target.select();
+  };
+
   render() {
     const {
       error,
@@ -193,7 +197,14 @@ class GameRoom extends React.Component<Props, State> {
           <Link to="/">Back to lobby</Link>
         </nav>
         {!isGameFull && (
-          <p>Invite your friend to this game by sending the link</p>
+          <>
+            <p>Invite your friend to this game by sending the link</p>
+            <input
+              className="invite-input"
+              value={window.location.href}
+              onFocus={this.selectAllText}
+            />
+          </>
         )}
         {!isGameFull &&
           role === "spectator" && (
