@@ -1,6 +1,6 @@
 {
-  "name": "fire-chess",
-  "homepage": "https://henrikra.github.io/fire-chess",
+  "name": "space-chess",
+  "homepage": "https://henrikra.github.io/space-chess",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
