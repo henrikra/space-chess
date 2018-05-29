@@ -4,7 +4,7 @@ import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import { Link } from "react-router-dom";
 
-import api, { Role } from "./api";
+import api from "./api";
 import { Move, RoomModel } from "./backendCommon/common";
 import { calculatePiecesFromMoves } from "./pieceUtils";
 import Board from "./board/Board";
@@ -13,7 +13,7 @@ import "./GameRoom.css";
 import { Consumer, UserContextProps } from "./userContext";
 import MoveListItem from "./MoveListItem";
 import saturn from "./img/saturnus.svg";
-import { GlobalState, PieceOnBoard } from "./types";
+import { GlobalState, PieceOnBoard, Role } from "./types";
 import Button from "./Button";
 import { createPieceImageUrl } from "./board/boardUtils";
 

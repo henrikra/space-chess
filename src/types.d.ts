@@ -11,3 +11,5 @@ export interface PieceOnBoard {
   at: Square;
   isCaptured: boolean;
 }
+
+export type Role = "white" | "black" | "spectator";

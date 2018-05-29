@@ -1,5 +1,7 @@
 import axios from "axios";
+
 import { Square } from "./backendCommon/common";
+import { Role } from "./types";
 
 interface IAddRoomResponse {
   roomId: string;
@@ -12,8 +14,6 @@ interface WhoAmIResponse {
 interface JoinGameResponse {
   role: Role;
 }
-
-export type Role = "white" | "black" | "spectator";
 
 const agent = axios.create({ baseURL: process.env.REACT_APP_API_BASE_URL });
 
